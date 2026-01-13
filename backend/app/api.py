@@ -18,7 +18,9 @@ app.add_middleware(
 # Request models
 class SalesRequest(BaseModel):
     prospect_name: str
+    prospect_email: str
     sender_name: str
+    product_description: str
 
 class ResearchRequest(BaseModel):
     topic: str
@@ -27,7 +29,12 @@ class ResearchRequest(BaseModel):
 @app.post("/api/sales")
 async def sales_endpoint(req: SalesRequest):
     try:
-        result = await run_sales_flow(req.prospect_name, req.sender_name)
+        result = await run_sales_flow(
+            req.prospect_name, 
+            req.sender_name,
+            req.product_description,
+            req.prospect_email
+        )
         return {"status": "success", "result": str(result)}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

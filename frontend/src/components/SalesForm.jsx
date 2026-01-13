@@ -4,7 +4,9 @@ import ProcessLog from './ProcessLog';
 
 export default function SalesForm({ onResult }) {
     const [prospectName, setProspectName] = useState('');
+    const [prospectEmail, setProspectEmail] = useState('');
     const [senderName, setSenderName] = useState('');
+    const [productDescription, setProductDescription] = useState('');
     const [loading, setLoading] = useState(false);
 
     const handleSubmit = async (e) => {
@@ -16,7 +18,9 @@ export default function SalesForm({ onResult }) {
         try {
             const response = await axios.post('http://localhost:8000/api/sales', {
                 prospect_name: prospectName,
-                sender_name: senderName
+                prospect_email: prospectEmail,
+                sender_name: senderName,
+                product_description: productDescription
             });
             onResult(response.data);
         } catch (error) {
@@ -47,6 +51,18 @@ export default function SalesForm({ onResult }) {
                     </div>
 
                     <div className="form-group">
+                        <label className="form-label">Prospect Email</label>
+                        <input
+                            type="email"
+                            value={prospectEmail}
+                            onChange={(e) => setProspectEmail(e.target.value)}
+                            className="form-input"
+                            placeholder="Enter prospect email"
+                            required
+                        />
+                    </div>
+
+                    <div className="form-group">
                         <label className="form-label">Sender Name</label>
                         <input
                             type="text"
@@ -56,6 +72,18 @@ export default function SalesForm({ onResult }) {
                             placeholder="Enter your name"
                             required
                         />
+                    </div>
+
+                    <div className="form-group">
+                        <label className="form-label">Product/Service Description</label>
+                        <textarea
+                            value={productDescription}
+                            onChange={(e) => setProductDescription(e.target.value)}
+                            className="form-input"
+                            placeholder="What are you offering? (e.g. Premium Coffee Beans, Web Design services...)"
+                            rows="4"
+                            required
+                        ></textarea>
                     </div>
 
                     <button

@@ -4,17 +4,17 @@ from backend.app.agents.sales.tools import send_email, send_html_email
 
 # --- CONFIG ---
 PERSONAS = [
-    ("Professional", "professional, serious", "write SOC2 compliance SaaS outreach emails"),
-    ("Engaging", "humorous, engaging", "write witty SOC2 compliance outreach emails"),
-    ("Busy", "busy, concise", "write brief SOC2 compliance outreach emails"),
+    ("Professional", "professional, serious"),
+    ("Engaging", "humorous, engaging"),
+    ("Busy", "busy, concise"),
 ]
 
 # --- AGENT FACTORY ---
 sales_agents_tools = []
-for name, tone, action in PERSONAS:
+for name, tone in PERSONAS:
     agent = Agent(
         name=f"{name} Sales Agent",
-        instructions=f"You are a {tone} sales agent working for ComplAI. You {action}.",
+        instructions=f"You are a {tone} sales agent. You write high-converting cold outreach emails. ALWAYS use the provided prospect name for the greeting and sign off with the provided sender name. DO NOT use placeholders like [Your Name] or [Firm Name].",
         model=default_model
     )
     # Create tool dynamically
@@ -52,9 +52,9 @@ emailer_agent = Agent(
 
 sales_manager = Agent(
     name="Sales Manager",
-    instructions="""You are a Sales Manager at ComplAI.
-1. Generate Drafts: Use all 3 sales agent tools to generate drafts.
-2. Evaluate: Choose the single best email.
+    instructions="""You are an expert Sales Manager.
+1. Generate Drafts: Use all 3 sales agent tools to generate drafts for the user's product/service.
+2. Evaluate: Choose the single best email. Ensure it uses the correct prospect and sender names provided in the query and contains NO placeholders like [Name].
 3. Handoff: Pass ONLY the winning draft to the 'Email Manager'.""",
     tools=sales_agents_tools,
     handoffs=[emailer_agent],
