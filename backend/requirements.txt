@@ -1,0 +1,9 @@
+openai
+python-dotenv
+sendgrid
+tavily-python
+markdown
+pydantic
+openai-agents
+fastapi
+uvicorn[standard]
