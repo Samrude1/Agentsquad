@@ -1,21 +1,19 @@
+import Markdown from 'react-markdown';
+
 export default function ResultsView({ result }) {
     if (!result) return null;
 
     return (
-        <div className="max-w-4xl mx-auto mt-8 p-6 bg-white rounded-lg shadow-lg">
-            <h3 className="text-xl font-bold mb-4 text-gray-800">
+        <div className="results-container">
+            <h3 className="results-title">
                 {result.status === 'success' ? '✅ Result' : '❌ Error'}
             </h3>
 
-            <div className="prose max-w-none">
+            <div className={`results-content ${result.status === 'error' ? 'error-content' : 'markdown-content'}`}>
                 {result.status === 'success' ? (
-                    <pre className="whitespace-pre-wrap bg-gray-50 p-4 rounded border border-gray-200 text-sm">
-                        {result.result}
-                    </pre>
+                    <Markdown>{result.result}</Markdown>
                 ) : (
-                    <div className="text-red-600 bg-red-50 p-4 rounded border border-red-200">
-                        {result.result}
-                    </div>
+                    result.result
                 )}
             </div>
         </div>

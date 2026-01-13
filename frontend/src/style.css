@@ -1,0 +1,333 @@
+/* Reset & Base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    color: #111;
+    background-color: #f8f9fa;
+    min-height: 100vh;
+}
+
+/* Layout */
+.app-container {
+    min-height: 100vh;
+    padding: 3rem 1rem;
+}
+
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* Header */
+.app-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 2.5rem;
+    color: #111;
+    letter-spacing: -0.5px;
+}
+
+/* Tab Navigation */
+.tab-navigation {
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    margin-bottom: 2.5rem;
+    border-bottom: 2px solid #e5e7eb;
+}
+
+.tab-button {
+    padding: 0.75rem 2rem;
+    border: none;
+    background: transparent;
+    font-weight: 600;
+    font-size: 1rem;
+    color: #6b7280;
+    cursor: pointer;
+    transition: all 0.2s;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+}
+
+.tab-button.active {
+    color: #111;
+    border-bottom-color: #111;
+}
+
+.tab-button:hover:not(.active) {
+    color: #374151;
+}
+
+/* Form Container */
+.form-container {
+    max-width: 40rem;
+    margin: 0 auto;
+    padding: 2rem;
+    background: white;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.form-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: #111;
+    text-align: center;
+}
+
+/* Form Elements */
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+.form-label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #4b5563;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.form-input {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+    font-size: 1rem;
+    background-color: white;
+    transition: border-color 0.2s;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #111;
+}
+
+/* Buttons */
+.submit-button {
+    width: 100%;
+    padding: 1rem;
+    border: none;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 1rem;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    transition: opacity 0.2s;
+    background-color: #111;
+}
+
+.submit-button:hover {
+    opacity: 0.9;
+}
+
+.submit-button:disabled {
+    background-color: #9ca3af;
+    cursor: not-allowed;
+}
+
+/* =========================================
+   RESULTS VIEW: THE "A4 REPORT"
+   ========================================= */
+.results-container {
+    max-width: 800px;
+    margin: 3rem auto 0;
+    padding: 4rem;
+    background: white;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e5e7eb;
+}
+
+.results-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #9ca3af;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 1rem;
+    margin-bottom: 2rem;
+}
+
+/* Markdown Typography */
+.markdown-content {
+    font-family: 'Georgia', serif;
+    color: #222;
+    font-size: 1.1rem;
+    line-height: 1.8;
+}
+
+.markdown-content h1 {
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 0 0 1.5rem;
+    color: #111;
+    letter-spacing: -0.5px;
+}
+
+.markdown-content h2 {
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 1.75rem;
+    font-weight: 600;
+    margin: 2.5rem 0 1rem;
+    color: #111;
+    border-bottom: 2px solid #111;
+    padding-bottom: 0.5rem;
+}
+
+.markdown-content h3 {
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 1.35rem;
+    font-weight: 600;
+    margin: 2rem 0 0.8rem;
+    color: #333;
+}
+
+.markdown-content p {
+    margin-bottom: 1.2rem;
+}
+
+.markdown-content ul,
+.markdown-content ol {
+    margin-bottom: 1.2rem;
+    padding-left: 1.5rem;
+}
+
+.markdown-content li {
+    margin-bottom: 0.5rem;
+}
+
+.markdown-content strong {
+    font-weight: 700;
+    color: #000;
+}
+
+.markdown-content a {
+    color: #000;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+}
+
+/* =========================================
+   PROCESS LOG: CLEAN CORPORATE STYLE
+   ========================================= */
+.process-log-container {
+    background-color: white;
+    color: #333;
+    border: 1px solid #e5e7eb;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.95rem;
+    min-height: 280px;
+    max-width: 40rem;
+    margin: 0 auto;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.process-log-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e5e7eb;
+    padding: 0.75rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+}
+
+.terminal-title {
+    color: #111;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.terminal-status {
+    color: #16a34a;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #16a34a;
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.5;
+        transform: scale(1.1);
+    }
+}
+
+.process-log-content {
+    padding: 1.25rem;
+    background-color: #fafafa;
+}
+
+.log-line {
+    margin-bottom: 0.5rem;
+    display: flex;
+    gap: 1rem;
+    font-size: 0.95rem;
+    color: #374151;
+}
+
+.log-timestamp {
+    color: #9ca3af;
+    font-size: 0.85rem;
+    min-width: 90px;
+    flex-shrink: 0;
+}
+
+.blinking-cursor {
+    display: inline-block;
+    width: 10px;
+    height: 16px;
+    background-color: #16a34a;
+    animation: blink 1s step-end infinite;
+    margin-left: 90px;
+}
+
+@keyframes blink {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+}
+
+.error-content {
+    color: #991b1b;
+    background-color: #fef2f2;
+    border: 1px solid #fecaca;
+    padding: 1rem;
+    border-radius: 4px;
+    font-size: 1rem;
+}

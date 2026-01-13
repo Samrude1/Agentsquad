@@ -1,12 +1,21 @@
-# Smart Outreach Manager
+# AI Agent Platform
 
-A modern full-stack application for AI-powered sales outreach and deep research, built with Python agents and React.
+A modern full-stack application for AI-powered automation, built with Python agents and React.
+
+## 🎬 Live Demo
+
+![AI Agent Platform Demo](demo_assets/frontpage.gif)
+
+*Watch the Research Agent in action: planning queries, searching the web, and generating comprehensive reports*
+
+---
 
 ## 🎯 Features
 
 - **Sales Agent**: Generate personalized cold sales emails using AI
 - **Research Agent**: Conduct deep research on any topic with automated web searches
-- **Modern UI**: Clean React interface with real-time results
+- **Live Process Visualization**: See the AI "thinking" in real-time
+- **Modern UI**: Clean React interface with professional styling
 - **Modular Architecture**: Scalable backend with domain-separated agents
 
 ## 🏗️ Architecture
@@ -112,7 +121,7 @@ SENDGRID_API_KEY=your_sendgrid_api_key
 ### Frontend
 - **Framework**: React 18
 - **Build Tool**: Vite
-- **Styling**: TailwindCSS
+- **Styling**: Vanilla CSS
 - **HTTP Client**: Axios
 
 ## 🧪 Usage Examples
