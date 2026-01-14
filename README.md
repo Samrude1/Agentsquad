@@ -16,6 +16,7 @@
 *Specialized in high-conversion outreach and relationship building.*
 
 - **Strategic Personalization**: Operates with a "Zero-Placeholder" policy. Generates 100% finished emails using **PAS** and **AIDA** psychology frameworks.
+- **Smart Recipient Handling**: Intelligently adapts greetings for both individual prospects ("Dear [Name]") and corporate entities ("To the team at [Company]").
 - **Human-in-the-Loop**: Features a "Draft Mode" allowing users to preview, edit, or discard emails before they are sent.
 - **Tone Adaptation**: Dynamically switches between **Professional**, **Engaging**, and **Busy** personas.
 
