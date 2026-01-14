@@ -12,26 +12,37 @@ class EmailDraft(BaseModel):
 professional_agent = Agent(
     name="Professional Sales Agent",
     instructions="""Write a professional sales email using PAS (Problem-Agitation-Solution).
-GREETING: Use greeting hint provided. NO PLACEHOLDERS.
-SIGNATURE: Sign with sender name.""",
+STRICT RULES:
+- NO LABELS like 'Problem:', 'Agitation:', or 'Solution:' in the output.
+- NO PLACEHOLDERS like [Brand Name], [Link], or [Insert info]. 
+- Use ONLY the info provided. If details are missing, write around them naturally.
+GREETING: Use greeting hint provided.
+SIGNATURE: Use 'Best regards, {sender_name}'.""",
     model=default_model
 )
 
 engaging_agent = Agent(
     name="Engaging Sales Agent", 
     instructions="""Write an engaging sales email using AIDA (Attention-Interest-Desire-Action).
-Be memorable and punchy. Use vivid analogies.
-GREETING: Use greeting hint provided. NO PLACEHOLDERS.
-SIGNATURE: Sign with sender name.""",
+STRICT RULES:
+- NO LABELS like 'Attention:', 'Interest:', etc. in the output.
+- NO PLACEHOLDERS like [Brand Name], [Link], or [Insert info]. 
+- Use ONLY the info provided.
+GREETING: Use greeting hint provided.
+SIGNATURE: Use 'Best regards, {sender_name}'.""",
     model=default_model
 )
 
 busy_agent = Agent(
     name="Busy Executive Agent",
     instructions="""Write a concise email using BLUF (Bottom Line Up Front).
-STRICT: Under 75 words. No fluff. Go straight to value.
-GREETING: Use greeting hint provided. NO PLACEHOLDERS.
-SIGNATURE: Sign with sender name.""",
+STRICT RULES:
+- Under 75 words. No fluff. Go straight to value.
+- NO labels like 'BLUF:' or 'Note:'.
+- NO PLACEHOLDERS.
+- Use ONLY the info provided.
+GREETING: Use greeting hint provided.
+SIGNATURE: Use 'Best regards, {sender_name}'.""",
     model=default_model
 )
 
@@ -41,8 +52,7 @@ sales_manager = Agent(
     instructions="""You are given 3 email drafts from different writers.
 
 TASK: Evaluate all 3 and pick the SINGLE BEST one for the prospect.
-OUTPUT: Return ONLY the winning email text (body only, no subject).
-Explain briefly why you chose it.""",
+OUTPUT: Return ONLY the winning email text. nothing else. No explanation, no reasoning, no "Reason:" section.""",
     model=default_model
 )
 
@@ -60,14 +70,19 @@ OUTPUT: Return ONLY the subject line, nothing else.""",
 
 html_formatter = Agent(
     name="HTML Formatter",
-    instructions="""Convert the email text to clean, professional HTML.
+    instructions="""Convert the email text to high-end, professional HTML.
+ESTHETIC GOAL: Clean, modern, "Fortune 500" tech style. 
+
 RULES:
-- Use simple tags: <p>, <strong>, <br>
-- No inline styles
-- Keep it clean and readable
-- Preserve the original content exactly
-- DO NOT include markdown code fences (no \`\`\`html or \`\`\`)
-OUTPUT: Return ONLY raw HTML tags, nothing else.""",
+- Use a clean hierarchy with <p>, <strong>, and <ul>/<li> if relevant.
+- Use minimal inline styles for professional spacing:
+  - Paragraphs should have: style="line-height: 1.6; margin-bottom: 16px; font-family: sans-serif; color: #333;"
+  - Strong text should have: style="color: #000;"
+- Ensure the layout feels spacious and easy to read.
+- DO NOT use amateurish colors or fonts. 
+- DO NOT include markdown code fences (no ```html or ```).
+- Preserve the original message exactly.
+OUTPUT: Return ONLY the raw HTML body content.""",
     model=default_model
 )
 

@@ -17,14 +17,21 @@ export default function SalesForm({ onResult }) {
 
     const handleGenerateDraft = async (e) => {
         e.preventDefault();
+
+        // Validate: at least one of contact or company must be filled
+        if (!contactName && !companyName) {
+            onResult({ status: 'error', result: 'Please provide either a contact name or company name.' });
+            return;
+        }
+
         setLoading(true);
         onResult(null); // Clear previous final results
 
         try {
             // Note: Updated endpoint to /api/sales/draft
             const response = await axios.post('http://localhost:8000/api/sales/draft', {
-                contact_name: contactName,
-                company_name: companyName,
+                contact_name: contactName || "",
+                company_name: companyName || "",
                 prospect_email: prospectEmail,
                 sender_name: senderName,
                 product_description: productDescription
@@ -140,14 +147,13 @@ export default function SalesForm({ onResult }) {
                 </div>
 
                 <div className="form-group">
-                    <label className="form-label">Company Name</label>
+                    <label className="form-label">Company Name (optional if contact)</label>
                     <input
                         type="text"
                         value={companyName}
                         onChange={(e) => setCompanyName(e.target.value)}
                         className="form-input"
                         placeholder="e.g., Sony, Microsoft"
-                        required
                     />
                 </div>
 

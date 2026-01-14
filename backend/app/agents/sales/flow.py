@@ -6,12 +6,17 @@ from backend.app.agents.sales.personas import (
 
 async def run_sales_flow(contact_name: str, company_name: str, sender_name: str, product_description: str, prospect_email: str):
     # Build recipient string for AI
-    if contact_name:
+    if contact_name and company_name:
         recipient = f"{contact_name} at {company_name}"
         greeting_hint = f"Use 'Dear {contact_name}'"
-    else:
+    elif contact_name:
+        recipient = contact_name
+        greeting_hint = f"Use 'Dear {contact_name}'"
+    elif company_name:
         recipient = company_name
         greeting_hint = f"Use 'To the team at {company_name}'"
+    else:
+        raise ValueError("Must provide either contact_name or company_name")
 
     print(f"\n>> Myyntiprosessi: {recipient} ({prospect_email})...")
     
@@ -43,6 +48,10 @@ Sender: {sender_name}
 Pick the BEST draft and return it.""")
     
     winning_draft = manager_result.final_output
+    
+    # Clean up: Remove any "Reason:" section if present
+    if "Reason:" in winning_draft:
+        winning_draft = winning_draft.split("Reason:")[0].strip()
     
     # Step 3: Subject Writer creates subject line
     print(">> Step 3: Subject Specialist writing subject line...")

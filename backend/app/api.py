@@ -16,9 +16,12 @@ app.add_middleware(
 )
 
 # Request models
+# Request models
+from typing import Optional
+
 class SalesRequest(BaseModel):
-    contact_name: str = ""  # Optional if company-only
-    company_name: str
+    contact_name: Optional[str] = ""
+    company_name: Optional[str] = ""
     prospect_email: str
     sender_name: str
     product_description: str
