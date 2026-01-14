@@ -1,22 +1,44 @@
 # AI Agent Platform
 
-A modern full-stack application for AI-powered automation, built with Python agents and React.
+> **The next generation of autonomous workforce.** A professional-grade, full-stack platform for building, orchestrating, and visualizing intelligent AI agents.
 
 ## 🎬 Live Demo
 
 ![AI Agent Platform Demo](demo_assets/frontpage.gif)
 
-*Watch the Research Agent in action: planning queries, searching the web, and generating comprehensive reports*
+*Watch the Research Agent in action: planning multi-stage strategies, executing parallel searches, and generating executive reports.*
 
 ---
 
-## 🎯 Features
+## 🤖 Meet the Agents
 
-- **Sales Agent**: Generate personalized cold sales emails using AI
-- **Research Agent**: Conduct deep research on any topic with automated web searches
-- **Live Process Visualization**: See the AI "thinking" in real-time
-- **Modern UI**: Clean React interface with professional styling
-- **Modular Architecture**: Scalable backend with domain-separated agents
+### 📧 The Sales Intelligence Specialist
+*Specialized in high-conversion outreach and relationship building.*
+
+- **Strategic Personalization**: Operates with a "Zero-Placeholder" policy. Generates 100% finished emails with correct context, prospect names, and sender signatures.
+- **Tone Adaptation**: Dynamically switches between **Professional**, **Engaging**, and **Concise** personas based on target audience.
+- **Product Versatility**: Capable of selling any service—from SOC2 Compliance SaaS to Luxury Items—by analyzing the user-provided product description.
+
+### 🔍 The Deep Research Architect
+*A master researcher capable of synthesizing the entire web into actionable insights.*
+
+- **Autonomous Planning**: Breaks down complex topics into multi-stage search strategies.
+- **Parallel Intelligence**: Executes high-speed, multi-source searches simultaneously using the Tavily AI Search grid.
+- **Executive Synthesis**: Processes 15+ sources into comprehensive, professional Markdown and HTML reports.
+
+---
+
+## 🧠 The Engine: Real-Time Visualization
+
+ Unlike "black box" AI wrappers, this platform features a **Live Process Stream**. Observe the agent's internal monologue as it:
+- 🛠️ **Initializes** specific agent protocols.
+- 🗺️ **Plans** search and outreach strategies.
+- 📡 **Queries** APIs in parallel.
+- ✍️ **Synthesizes** data into final products.
+
+---
+
+# 🛠️ Technical Reference
 
 ## 🏗️ Architecture
 
@@ -24,142 +46,69 @@ A modern full-stack application for AI-powered automation, built with Python age
 Agent_tools/
 ├── backend/
 │   ├── app/
-│   │   ├── core/           # Shared config & utilities
+│   │   ├── core/           # Shared config & dynamic model management
 │   │   ├── agents/
-│   │   │   ├── sales/      # Sales email generation
-│   │   │   └── research/   # Deep research automation
-│   │   ├── api.py          # FastAPI endpoints
-│   │   └── main.py         # CLI interface
+│   │   │   ├── sales/      # Dynamic sales personas & orchestration
+│   │   │   └── research/   # Deep research flows & search logic
+│   │   ├── api.py          # Minimalist FastAPI endpoints
+│   │   └── main.py         # Advanced CLI entry point
 │   └── requirements.txt
 └── frontend/
     ├── src/
-    │   ├── components/     # React components
-    │   └── App.jsx
+    │   ├── components/     # Modular React UI components
+    │   └── App.jsx         # Tab-based orchestrator
     └── package.json
 ```
 
 ## 🚀 Quick Start
 
-### Prerequisites
-- Python 3.10+
-- Node.js 18+
-- API Keys: Gemini, Tavily, SendGrid
-
 ### Setup
 
-1. **Clone and navigate to project**
+1. **Clone and navigate**
 ```bash
+git clone https://github.com/Samrude1/Agentsquad.git
 cd Agent_tools
 ```
 
-2. **Backend Setup**
+2. **Backend Engine Setup**
 ```bash
-# Create virtual environment
 python -m venv .venv
-
-# Activate (Windows)
 .\.venv\Scripts\activate
-
-# Install dependencies
 pip install -r backend/requirements.txt
-
-# Configure environment
-cp .env.example .env
-# Edit .env with your API keys
+cp .env.example .env  # Add your API keys here
 ```
 
-3. **Frontend Setup**
+3. **Frontend UI Setup**
 ```bash
 cd frontend
 npm install
 ```
 
-### Running the Application
+### Running the Platform
 
-**Option 1: Web Interface**
+**Production Mode (Web UI):**
+- **Backend**: `uvicorn backend.app.api:app --reload` (Runs on port 8000)
+- **Frontend**: `npm run dev` (Runs on port 5173)
 
-Terminal 1 (Backend):
-```bash
-.\.venv\Scripts\activate
-uvicorn backend.app.api:app --reload
-```
+**Dev Mode (CLI):**
+- `python -m backend.app.main`
 
-Terminal 2 (Frontend):
-```bash
-cd frontend
-npm run dev
-```
+## 🧪 Tech Stack
 
-Visit: `http://localhost:5173`
+- **Backend**: Python 3.10+, FastAPI, OpenAI Agents SDK (Gemini 2.0 Flash)
+- **Search Engine**: Tavily AI
+- **Frontend**: React 18, Vite, Vanilla CSS (Modern Corporate UI)
 
-**Option 2: CLI**
-```bash
-.\.venv\Scripts\activate
-python -m backend.app.main
-```
+## 🛠️ Development & Scalability
 
-## 🔑 Environment Variables
+This platform is built for **extensibility**:
+- **Modular Agents**: Add new "skills" by creating a new agent folder in `backend/app/agents/`.
+- **Factory Pattern**: Agents are generated dynamically, allowing for hundreds of unique personas with minimal code.
+- **Visual Logs**: The frontend automatically maps to agent lifecycle steps.
 
-Create a `.env` file in the project root:
+---
 
-```env
-OPENAI_API_KEY=your_gemini_api_key
-OPENAI_BASE_URL=https://generativelanguage.googleapis.com/v1beta/openai/
-TAVILY_API_KEY=your_tavily_api_key
-SENDGRID_API_KEY=your_sendgrid_api_key
-```
+## 🤝 Contributing & License
 
-## 📚 Tech Stack
-
-### Backend
-- **Framework**: FastAPI
-- **AI Agents**: OpenAI Agents SDK
-- **LLM**: Google Gemini 2.0 Flash
-- **Search**: Tavily API
-- **Email**: SendGrid
-
-### Frontend
-- **Framework**: React 18
-- **Build Tool**: Vite
-- **Styling**: Vanilla CSS
-- **HTTP Client**: Axios
-
-## 🧪 Usage Examples
-
-### Sales Agent
-Generates three different email drafts (professional, engaging, concise), selects the best one, and formats it as HTML before sending.
-
-### Research Agent
-1. Plans 3 optimized search queries
-2. Executes searches in parallel using Tavily
-3. Synthesizes results into a comprehensive markdown report
-4. Saves both markdown and HTML versions
-
-## 📖 Documentation
-
-- [`docs/guide.md`](docs/guide.md) - Development guide and architecture
-- [`docs/plans.md`](docs/plans.md) - Original project plans
-- [`.env.example`](.env.example) - Environment configuration template
-
-## 🛠️ Development
-
-### Code Structure
-- **Modular Agents**: Each agent domain (sales/research) is self-contained
-- **Factory Pattern**: Dynamic agent generation reduces code duplication
-- **Async-First**: Uses `asyncio.gather` for parallel operations
-- **Type Safety**: Pydantic models for data validation
-
-### Adding New Agents
-1. Create new folder in `backend/app/agents/`
-2. Define tools in `tools.py`
-3. Define agents in `squad.py` or `personas.py`
-4. Create flow orchestration in `flow.py`
-5. Add API endpoint in `api.py`
-
-## 📝 License
-
-MIT
-
-## 🤝 Contributing
-
-This is a learning/portfolio project. Feel free to fork and adapt for your needs.
+Designed for demonstration and portfolio use. Licensed under MIT.
+Built with ❤️ by Samrude1.
