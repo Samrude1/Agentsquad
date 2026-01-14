@@ -57,6 +57,17 @@ Unlike "black box" AI wrappers, this platform features:
 
 ---
 
+## 🎨 UI/UX Features
+
+**Professional Console Interface:**
+- **Fixed-Height Console**: Agent process logs displayed in a scrollable 400px window
+- **Smart Positioning**: Console appears below agent panels, not replacing them
+- **Internal Scrollbar**: Scroll through agent steps without moving the entire page
+- **Live Status Indicators**: Real-time "RUNNING" status with animated pulse dot
+- **Persistent Form**: Input fields remain visible during agent execution (disabled state)
+
+---
+
 # 🛠️ Technical Reference
 
 ## 🏗️ Architecture

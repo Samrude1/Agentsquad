@@ -24,12 +24,10 @@ export default function ResearchForm({ onResult }) {
     };
 
     return (
-        <div className="form-container">
-            <h2 className="form-title">Deep Research Agent</h2>
+        <>
+            <div className="form-container">
+                <h2 className="form-title">Deep Research Agent</h2>
 
-            {loading ? (
-                <ProcessLog agentType="research" />
-            ) : (
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
                         <label className="form-label">Research Topic</label>
@@ -40,17 +38,21 @@ export default function ResearchForm({ onResult }) {
                             className="form-input research"
                             placeholder="Enter research topic"
                             required
+                            disabled={loading}
                         />
                     </div>
 
                     <button
                         type="submit"
                         className="submit-button research"
+                        disabled={loading}
                     >
-                        Start Research
+                        {loading ? 'Research in Progress...' : 'Start Research'}
                     </button>
                 </form>
-            )}
-        </div>
+            </div>
+
+            {loading && <ProcessLog agentType="research" />}
+        </>
     );
 }
