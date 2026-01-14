@@ -6,25 +6,33 @@ from backend.app.core.utils import save_markdown_report, convert_to_html
 async def run_deep_research(topic: str):
     print(f"\n=== TUTKIMUS: {topic} ===\n")
 
-    # 1. PLAN
-    print(">> Suunnitellaan...")
+    # Step 1: PLANNER creates search strategy
+    print(">> Agent 1: Research Planner creating strategy...")
     plan = (await Runner.run(planner_agent, f"Topic: {topic}")).final_output
 
-    # 2. SEARHC (Parallel)
-    print(">> Haetaan tietoa...")
-    search_tasks = [Runner.run(search_agent, f"Search: {item.query}") for item in plan.searches]
-    results = await asyncio.gather(*search_tasks)
+    # Step 2: SEARCH ANALYSTS run in PARALLEL (3 instances of same agent)
+    print(">> Agent 2: Search Analysts executing parallel searches...")
+    search_results = await asyncio.gather(*[
+        Runner.run(search_agent, f"Search and analyze: {item.query}")
+        for item in plan.searches
+    ])
     
-    # Combine results
-    combined_summaries = "\n\n".join([r.final_output for r in results])
+    # Combine all analyst findings
+    combined_data = "\n\n---\n\n".join([
+        f"SEARCH {i+1}: {item.query}\nFINDINGS:\n{result.final_output}"
+        for i, (item, result) in enumerate(zip(plan.searches, search_results))
+    ])
 
-    # 3. WRITE
-    print(">> Kirjoitetaan raporttia...")
-    final_report = (await Runner.run(writer_agent, f"Topic: {topic}\n\nData:\n{combined_summaries}")).final_output
+    # Step 3: WRITER synthesizes into final report
+    print(">> Agent 3: Research Writer synthesizing report...")
+    final_report = (await Runner.run(
+        writer_agent, 
+        f"Topic: {topic}\n\nResearch Data:\n{combined_data}"
+    )).final_output
 
     print("\n=== VALMIS ===\n")
     
-    # Save
+    # Save to unique folder
     if md_file := save_markdown_report(final_report, topic):
         convert_to_html(final_report, topic, md_file)
 

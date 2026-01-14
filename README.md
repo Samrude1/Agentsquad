@@ -12,30 +12,48 @@
 
 ## 🤖 Meet the Agents
 
-### 📧 The Sales Intelligence Specialist
-*Specialized in high-conversion outreach and relationship building.*
+### 📧 The Sales Intelligence Team (6 Agents)
+*A collaborative team specialized in high-conversion outreach.*
 
-- **Strategic Personalization**: Operates with a "Zero-Placeholder" policy. Generates 100% finished emails using **PAS** and **AIDA** psychology frameworks.
-- **Smart Recipient Handling**: Intelligently adapts greetings for both individual prospects ("Dear [Name]") and corporate entities ("To the team at [Company]").
-- **Human-in-the-Loop**: Features a "Draft Mode" allowing users to preview, edit, or discard emails before they are sent.
-- **Tone Adaptation**: Dynamically switches between **Professional**, **Engaging**, and **Busy** personas.
+| Agent | Role |
+|-------|------|
+| Professional Agent | PAS (Problem-Agitation-Solution) framework |
+| Engaging Agent | AIDA (Attention-Interest-Desire-Action) framework |
+| Busy Executive Agent | BLUF (Bottom Line Up Front) - under 75 words |
+| Sales Manager | Evaluates all 3 drafts, picks the best |
+| Subject Specialist | Crafts catchy, high-conversion subject lines |
+| HTML Formatter | Converts to clean, professional HTML |
 
-### 🔍 The Deep Research Architect
-*A master researcher capable of synthesizing the entire web into actionable insights.*
+**Key Features:**
+- **Competitive Drafting**: 3 personas write competing emails, manager picks the winner
+- **Smart Recipient Handling**: Adapts greetings for individuals ("Dear John") vs companies ("To the team at Sony")
+- **Human-in-the-Loop**: Draft Mode lets you preview, edit, or discard before sending
+- **Zero Placeholders**: 100% finished emails, every time
 
-- **Autonomous Planning**: Breaks down complex topics into multi-stage search strategies.
-- **Parallel Intelligence**: Executes high-speed, multi-source searches simultaneously using the Tavily AI Search grid.
-- **Executive Synthesis**: Processes 15+ sources into comprehensive reports with **inline citations** and **Executive Summaries**.
-- **Organized Outputs**: Automatically generates unique, timestamped folders for every research project.
+### 🔍 The Deep Research Team (3 Agents)
+*A research squad capable of synthesizing the entire web into actionable insights.*
+
+| Agent | Role |
+|-------|------|
+| Research Planner | Breaks topic into 3 surgical search strategies |
+| Search Analyst | Executes searches + analyzes results (×3 parallel) |
+| Research Writer | Synthesizes with citations and executive summary |
+
+**Key Features:**
+- **Parallel Intelligence**: 3 searches execute simultaneously via Tavily AI
+- **Professional Citations**: Numbered references linked to named sources
+- **Executive Reports**: Key Takeaways + deep dive sections
+- **Organized Outputs**: Unique timestamped folders for each project
 
 ---
 
-## 🧠 The Engine: Thinking & Governance
+## 🧠 The Engine: Multi-Agent Orchestration
 
- Unlike "black box" AI wrappers, this platform features:
-- **Live Process Stream**: Observe the agent's internal monologue and state transitions in real-time.
-- **Custom Workflows**: Standardized `.agent/workflows/` for consistent code optimization and quality review.
-- **AI Skills**: Project-specific "Permanent Memory" in `.agent/skills/` (e.g., `agent-architect`) that teaches the AI how to expand the platform.
+Unlike "black box" AI wrappers, this platform features:
+- **Flow-Based Orchestration**: Agents run in parallel where possible, avoiding SDK turn limits
+- **Live Process Stream**: Real-time visibility into agent collaboration
+- **Custom Workflows**: Standardized `.agent/workflows/` for code quality
+- **AI Skills**: Project knowledge stored in `.agent/skills/` for consistent expansion
 
 ---
 
@@ -47,16 +65,16 @@
 Agent_tools/
 ├── backend/
 │   ├── app/
-│   │   ├── core/           # Shared config & dynamic model management
+│   │   ├── core/           # Shared config & model management
 │   │   ├── agents/
-│   │   │   ├── sales/      # Dynamic sales personas & orchestration
-│   │   │   └── research/   # Deep research flows & search logic
-│   │   ├── api.py          # Minimalist FastAPI endpoints
-│   │   └── main.py         # Advanced CLI entry point
+│   │   │   ├── sales/      # 6-agent sales pipeline
+│   │   │   └── research/   # 3-agent research squad
+│   │   ├── api.py          # FastAPI endpoints (draft/send/research)
+│   │   └── main.py         # CLI entry point
 │   └── requirements.txt
 └── frontend/
     ├── src/
-    │   ├── components/     # Modular React UI components
+    │   ├── components/     # React UI components
     │   └── App.jsx         # Tab-based orchestrator
     └── package.json
 ```
@@ -88,8 +106,8 @@ npm install
 ### Running the Platform
 
 **Production Mode (Web UI):**
-- **Backend**: `uvicorn backend.app.api:app --reload` (Runs on port 8000)
-- **Frontend**: `npm run dev` (Runs on port 5173)
+- **Backend**: `uvicorn backend.app.api:app --reload` (Port 8000)
+- **Frontend**: `npm run dev` (Port 5173)
 
 **Dev Mode (CLI):**
 - `python -m backend.app.main`
@@ -98,14 +116,15 @@ npm install
 
 - **Backend**: Python 3.10+, FastAPI, OpenAI Agents SDK (Gemini 2.0 Flash)
 - **Search Engine**: Tavily AI
-- **Frontend**: React 18, Vite, Vanilla CSS (Modern Corporate UI)
+- **Email Delivery**: SendGrid
+- **Frontend**: React 18, Vite, Vanilla CSS
 
 ## 🛠️ Development & Scalability
 
 This platform is built for **extensibility**:
-- **Modular Agents**: Add new "skills" by creating a new agent folder in `backend/app/agents/`.
-- **Factory Pattern**: Agents are generated dynamically, allowing for hundreds of unique personas with minimal code.
-- **Visual Logs**: The frontend automatically maps to agent lifecycle steps.
+- **Modular Agents**: Add new capabilities in `backend/app/agents/`
+- **Flow Orchestration**: `asyncio.gather()` for parallel agent execution
+- **Visual Logs**: Frontend automatically maps to agent lifecycle steps
 
 ---
 

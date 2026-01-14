@@ -4,13 +4,12 @@ from sendgrid.helpers.mail import Mail, Email, To, Content
 from typing import Dict
 from agents import function_tool
 
-@function_tool
-def send_email(to_email: str, subject: str, html_body: str) -> Dict[str, str]:
-    """ Send out an email with the given subject and HTML body to the target prospect """
+def _send_email_raw(to_email: str, subject: str, html_body: str) -> Dict[str, str]:
+    """Raw email sending function (for direct API calls)."""
     try:
         sg = sendgrid.SendGridAPIClient(api_key=os.environ.get('SENDGRID_API_KEY'))
-        from_email = Email("samrude1@outlook.com") # Verified sender
-        recipient = To(to_email)                   # Dynamic Recipient
+        from_email = Email("samrude1@outlook.com")  # Verified sender
+        recipient = To(to_email)
         content = Content("text/html", html_body)
         
         mail = Mail(from_email, recipient, subject, content).get()
@@ -23,11 +22,6 @@ def send_email(to_email: str, subject: str, html_body: str) -> Dict[str, str]:
         return {"status": "error", "message": str(e)}
 
 @function_tool
-def return_draft(to_email: str, subject: str, html_body: str) -> Dict[str, str]:
-    """ Submit the final email draft for human review. Do not send it yet. """
-    return {
-        "status": "draft_created",
-        "to_email": to_email,
-        "subject": subject,
-        "html_body": html_body
-    }
+def send_email(to_email: str, subject: str, html_body: str) -> Dict[str, str]:
+    """Send out an email with the given subject and HTML body to the target prospect."""
+    return _send_email_raw(to_email, subject, html_body)

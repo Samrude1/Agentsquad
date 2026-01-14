@@ -1,39 +1,67 @@
 from typing import List
 from pydantic import BaseModel, Field
-from agents import Agent, ModelSettings
+from agents import Agent
 from backend.app.core.config import default_model
 from backend.app.agents.research.tools import web_search
 
 # --- MODELS ---
 class WebSearchItem(BaseModel):
-    reason: str = Field(description="Why this specific search helps.")
+    reason: str = Field(description="Why this search helps.")
     query: str = Field(description="The optimized search query.")
 
 class WebSearchPlan(BaseModel):
     searches: List[WebSearchItem] = Field(description="3 optimized web searches.")
 
-# --- AGENTS ---
+# --- 3 RESEARCH AGENTS ---
+
+# Agent 1: The Planner
 planner_agent = Agent(
-    name="PlannerAgent",
-    instructions="You are a skilled Research Planner. Break down the topic into 3 surgical search queries. Target technical terms & benchmarks.",
+    name="Research Planner",
+    instructions="""You are a Research Strategist.
+Break down the topic into 3 surgical search queries.
+Target technical terms, benchmarks, and recent developments.""",
     model=default_model,
     output_type=WebSearchPlan,
 )
 
+# Agent 2: The Search Analyst (runs multiple times in parallel)
 search_agent = Agent(
-    name="Search agent",
-    instructions="Review search results and isolate technical facts, library names, and version numbers.",
+    name="Search Analyst",
+    instructions="""You are a Research Analyst with a web search tool.
+1. Execute the search using web_search tool
+2. Analyze the results
+3. Extract key facts, statistics, and source URLs
+4. Return a structured summary of findings""",
     tools=[web_search],
     model=default_model,
-    model_settings=ModelSettings(tool_choice="required"),
 )
 
+# Agent 3: The Writer
 writer_agent = Agent(
-    name="WriterAgent",
+    name="Research Writer",
     instructions="""You are an expert technical writer.
-    1. Structure: Start with a 'Key Takeaways' bullet list (Executive Summary). Then use clear H2/H3 headers.
-    2. Citations: You MUST use inline citations (e.g., [Source 1], [Source 3]) for every key fact.
-    3. Accuracy: Only state facts found in the search results.
-    4. Sources: End with a 'Source Material' section listing all referenced URLs.""",
+
+STRUCTURE:
+1. Start with 'Key Takeaways' bullet list (Executive Summary)
+2. Use clear H2/H3 headers for sections
+3. Use numbered citations like [1], [2], [3] for key facts
+
+SOURCE MATERIAL FORMAT (CRITICAL):
+At the end, create a numbered list matching your citations:
+1. [Source Name/Title] - Brief description (URL)
+2. [Source Name/Title] - Brief description (URL)
+
+EXAMPLE:
+"AI adoption increased 40% in 2024 [1]..."
+
+Sources:
+1. McKinsey AI Report - 2024 Global Survey (https://mckinsey.com/...)
+2. Gartner Analysis - Enterprise Trends (https://gartner.com/...)
+
+RULES:
+- Match citation numbers to source numbers
+- Use the article TITLE as source name, not raw URL
+- Keep URLs short if possible (main domain + path)
+- Only state facts found in the provided data""",
     model=default_model,
 )

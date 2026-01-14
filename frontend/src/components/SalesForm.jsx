@@ -4,7 +4,8 @@ import ProcessLog from './ProcessLog';
 // Removed react-markdown import as we are previewing HTML directly
 
 export default function SalesForm({ onResult }) {
-    const [prospectName, setProspectName] = useState('');
+    const [contactName, setContactName] = useState('');
+    const [companyName, setCompanyName] = useState('');
     const [prospectEmail, setProspectEmail] = useState('');
     const [senderName, setSenderName] = useState('');
     const [productDescription, setProductDescription] = useState('');
@@ -22,7 +23,8 @@ export default function SalesForm({ onResult }) {
         try {
             // Note: Updated endpoint to /api/sales/draft
             const response = await axios.post('http://localhost:8000/api/sales/draft', {
-                prospect_name: prospectName,
+                contact_name: contactName,
+                company_name: companyName,
                 prospect_email: prospectEmail,
                 sender_name: senderName,
                 product_description: productDescription
@@ -127,13 +129,24 @@ export default function SalesForm({ onResult }) {
 
             <form onSubmit={handleGenerateDraft}>
                 <div className="form-group">
-                    <label className="form-label">Recipient (Person or Company)</label>
+                    <label className="form-label">Contact Name (optional if company)</label>
                     <input
                         type="text"
-                        value={prospectName}
-                        onChange={(e) => setProspectName(e.target.value)}
+                        value={contactName}
+                        onChange={(e) => setContactName(e.target.value)}
                         className="form-input"
-                        placeholder="Enter name or company"
+                        placeholder="e.g., John Smith"
+                    />
+                </div>
+
+                <div className="form-group">
+                    <label className="form-label">Company Name</label>
+                    <input
+                        type="text"
+                        value={companyName}
+                        onChange={(e) => setCompanyName(e.target.value)}
+                        className="form-input"
+                        placeholder="e.g., Sony, Microsoft"
                         required
                     />
                 </div>
