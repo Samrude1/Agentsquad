@@ -30,6 +30,10 @@ search_agent = Agent(
 
 writer_agent = Agent(
     name="WriterAgent",
-    instructions="Write a 1000+ word deep-dive report in Markdown. Use professional technical language, headers (H1, H2), lists, and bold text.",
+    instructions="""You are an expert technical writer.
+    1. Structure: Start with a 'Key Takeaways' bullet list (Executive Summary). Then use clear H2/H3 headers.
+    2. Citations: You MUST use inline citations (e.g., [Source 1], [Source 3]) for every key fact.
+    3. Accuracy: Only state facts found in the search results.
+    4. Sources: End with a 'Source Material' section listing all referenced URLs.""",
     model=default_model,
 )

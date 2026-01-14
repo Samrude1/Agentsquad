@@ -9,6 +9,7 @@ async def run_sales_flow(prospect_name: str, sender_name: str, product_descripti
     result = await Runner.run(sales_manager, query)
     
     print(f">> Valmis: {prospect_name}\n")
+    # The result.final_output is usually the string/json returned by the last tool
     return result.final_output
 
 if __name__ == "__main__":

@@ -1,14 +1,26 @@
 import os
 import markdown
+from datetime import datetime
 
 def save_markdown_report(content: str, topic: str, output_dir: str = "Reports") -> str:
-    """Saves the markdown content to a file."""
+    """Saves the markdown content to a unique subfolder."""
+    # 1. Ensure base output dir exists
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
-        print(f"Created directory: {output_dir}")
+        print(f"Created base directory: {output_dir}")
 
+    # 2. Create unique subfolder name
     clean_topic = "".join(x for x in topic if x.isalnum() or x in " -_").strip().replace(" ", "_")
-    filename = os.path.join(output_dir, f"tutkimus_{clean_topic[:30]}.md")
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    folder_name = f"{timestamp}_{clean_topic[:30]}"
+    report_folder = os.path.join(output_dir, folder_name)
+    
+    if not os.path.exists(report_folder):
+        os.makedirs(report_folder)
+        print(f"Created report folder: {report_folder}")
+
+    # 3. Save Markdown file inside the subfolder
+    filename = os.path.join(report_folder, f"tutkimus_{clean_topic[:30]}.md")
     
     with open(filename, "w", encoding="utf-8") as f:
         f.write(content)
@@ -16,8 +28,8 @@ def save_markdown_report(content: str, topic: str, output_dir: str = "Reports") 
     print(f"Markdown saved: {filename}")
     return filename
 
-def convert_to_html(markdown_content: str, topic: str, output_filename: str) -> str:
-    """Converts markdown to a styled HTML file."""
+def convert_to_html(markdown_content: str, topic: str, md_filepath: str) -> str:
+    """Converts markdown to a styled HTML file in the same directory as the md file."""
     try:
         html_content = markdown.markdown(markdown_content)
         
@@ -47,7 +59,8 @@ def convert_to_html(markdown_content: str, topic: str, output_filename: str) -> 
         </html>
         """
         
-        html_filename = output_filename.replace(".md", ".html")
+        # Save HTML in the same folder as the Markdown file
+        html_filename = md_filepath.replace(".md", ".html")
         with open(html_filename, "w", encoding="utf-8") as f:
             f.write(full_html)
         print(f"HTML saved: {html_filename}")

@@ -15,26 +15,26 @@
 ### 📧 The Sales Intelligence Specialist
 *Specialized in high-conversion outreach and relationship building.*
 
-- **Strategic Personalization**: Operates with a "Zero-Placeholder" policy. Generates 100% finished emails with correct context, prospect names, and sender signatures.
-- **Tone Adaptation**: Dynamically switches between **Professional**, **Engaging**, and **Concise** personas based on target audience.
-- **Product Versatility**: Capable of selling any service—from SOC2 Compliance SaaS to Luxury Items—by analyzing the user-provided product description.
+- **Strategic Personalization**: Operates with a "Zero-Placeholder" policy. Generates 100% finished emails using **PAS** and **AIDA** psychology frameworks.
+- **Human-in-the-Loop**: Features a "Draft Mode" allowing users to preview, edit, or discard emails before they are sent.
+- **Tone Adaptation**: Dynamically switches between **Professional**, **Engaging**, and **Busy** personas.
 
 ### 🔍 The Deep Research Architect
 *A master researcher capable of synthesizing the entire web into actionable insights.*
 
 - **Autonomous Planning**: Breaks down complex topics into multi-stage search strategies.
 - **Parallel Intelligence**: Executes high-speed, multi-source searches simultaneously using the Tavily AI Search grid.
-- **Executive Synthesis**: Processes 15+ sources into comprehensive, professional Markdown and HTML reports.
+- **Executive Synthesis**: Processes 15+ sources into comprehensive reports with **inline citations** and **Executive Summaries**.
+- **Organized Outputs**: Automatically generates unique, timestamped folders for every research project.
 
 ---
 
-## 🧠 The Engine: Real-Time Visualization
+## 🧠 The Engine: Thinking & Governance
 
- Unlike "black box" AI wrappers, this platform features a **Live Process Stream**. Observe the agent's internal monologue as it:
-- 🛠️ **Initializes** specific agent protocols.
-- 🗺️ **Plans** search and outreach strategies.
-- 📡 **Queries** APIs in parallel.
-- ✍️ **Synthesizes** data into final products.
+ Unlike "black box" AI wrappers, this platform features:
+- **Live Process Stream**: Observe the agent's internal monologue and state transitions in real-time.
+- **Custom Workflows**: Standardized `.agent/workflows/` for consistent code optimization and quality review.
+- **AI Skills**: Project-specific "Permanent Memory" in `.agent/skills/` (e.g., `agent-architect`) that teaches the AI how to expand the platform.
 
 ---
 

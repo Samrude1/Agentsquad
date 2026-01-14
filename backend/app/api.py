@@ -22,20 +22,36 @@ class SalesRequest(BaseModel):
     sender_name: str
     product_description: str
 
+class SendRequest(BaseModel):
+    to_email: str
+    subject: str
+    html_body: str
+
 class ResearchRequest(BaseModel):
     topic: str
 
 # Endpoints
-@app.post("/api/sales")
+@app.post("/api/sales/draft")
 async def sales_endpoint(req: SalesRequest):
     try:
+        # Result will now be a dict from return_draft tool
         result = await run_sales_flow(
             req.prospect_name, 
             req.sender_name,
             req.product_description,
             req.prospect_email
         )
-        return {"status": "success", "result": str(result)}
+        return {"status": "success", "draft": result}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/sales/send")
+async def send_endpoint(req: SendRequest):
+    try:
+        from backend.app.agents.sales.tools import send_email
+        # Direct call to the tool function
+        result = send_email(req.to_email, req.subject, req.html_body)
+        return result
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
