@@ -127,13 +127,13 @@ export default function SalesForm({ onResult }) {
 
             <form onSubmit={handleGenerateDraft}>
                 <div className="form-group">
-                    <label className="form-label">Prospect Name</label>
+                    <label className="form-label">Recipient (Person or Company)</label>
                     <input
                         type="text"
                         value={prospectName}
                         onChange={(e) => setProspectName(e.target.value)}
                         className="form-input"
-                        placeholder="Enter prospect name"
+                        placeholder="Enter name or company"
                         required
                     />
                 </div>

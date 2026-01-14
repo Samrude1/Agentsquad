@@ -15,7 +15,7 @@ sales_agents_tools = []
 for name, tone in PERSONAS:
     agent = Agent(
         name=f"{name} Sales Agent",
-        instructions=f"You are a {tone} sales agent. You write high-converting cold outreach emails. ALWAYS use the provided prospect name for the greeting and sign off with the provided sender name. DO NOT use placeholders like [Your Name] or [Firm Name].",
+        instructions=f"You are a {tone} sales agent writing high-converting emails. GREETING RULE: If the prospect name is a person, use 'Dear [Name]'. If it is a company (e.g., McDonald's), use 'To the team at [Company]' or 'Dear [Company] Management'. ALWAYS sign off with the provided sender name and ensure ZERO placeholders remain.",
         model=default_model
     )
     # Create tool dynamically
