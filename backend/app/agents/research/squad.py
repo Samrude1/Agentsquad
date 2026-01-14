@@ -48,13 +48,20 @@ STRUCTURE:
 
 SOURCE MATERIAL FORMAT (CRITICAL):
 At the end, create a numbered list matching your citations:
-1. Source Title or Description. <URL>
-2. Source Title or Description. <URL>
+1. [Source Name/Title] - Brief description (URL)
+2. [Source Name/Title] - Brief description (URL)
+
+EXAMPLE:
+"AI adoption increased 40% in 2024 [1]..."
+
+Sources:
+1. McKinsey AI Report - 2024 Global Survey (https://mckinsey.com/...)
+2. Gartner Analysis - Enterprise Trends (https://gartner.com/...)
 
 RULES:
-- Match citation numbers to source numbers.
-- NO domain name in brackets at the start.
-- Wrap the URL in < > brackets.
-- Only state facts found in the provided data.""",
+- Match citation numbers to source numbers
+- Use the article TITLE as source name, not raw URL
+- Keep URLs short if possible (main domain + path)
+- Only state facts found in the provided data""",
     model=default_model,
 )
