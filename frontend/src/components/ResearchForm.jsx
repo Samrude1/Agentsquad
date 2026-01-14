@@ -24,32 +24,39 @@ export default function ResearchForm({ onResult }) {
     };
 
     return (
-        <div className="form-container">
-            <h2 className="form-title">Deep Research Agent</h2>
+        <div className={loading ? "research-console-layout" : "form-container"}>
+            <div className="research-main-panel">
+                <div className="form-container" style={{ margin: 0, maxWidth: 'none' }}>
+                    <h2 className="form-title">Deep Research Agent</h2>
+                    <form onSubmit={handleSubmit}>
+                        <div className="form-group">
+                            <label className="form-label">Research Topic</label>
+                            <input
+                                type="text"
+                                value={topic}
+                                onChange={(e) => setTopic(e.target.value)}
+                                className="form-input research"
+                                placeholder="Enter research topic"
+                                required
+                                disabled={loading}
+                            />
+                        </div>
 
-            {loading ? (
-                <ProcessLog agentType="research" />
-            ) : (
-                <form onSubmit={handleSubmit}>
-                    <div className="form-group">
-                        <label className="form-label">Research Topic</label>
-                        <input
-                            type="text"
-                            value={topic}
-                            onChange={(e) => setTopic(e.target.value)}
-                            className="form-input research"
-                            placeholder="Enter research topic"
-                            required
-                        />
-                    </div>
+                        <button
+                            type="submit"
+                            className="submit-button research"
+                            disabled={loading}
+                        >
+                            {loading ? 'Research in Progress...' : 'Start Research'}
+                        </button>
+                    </form>
+                </div>
+            </div>
 
-                    <button
-                        type="submit"
-                        className="submit-button research"
-                    >
-                        Start Research
-                    </button>
-                </form>
+            {loading && (
+                <div className="research-sidebar">
+                    <ProcessLog agentType="research" />
+                </div>
             )}
         </div>
     );
