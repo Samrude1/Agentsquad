@@ -4,7 +4,7 @@
 
 ## 🎬 Live Demo
 
-![AI Agent Platform Demo](demo_assets/frontpage.gif)
+![AI Agent Platform Demo](assets/frontpage.gif)
 
 *Watch the Research Agent in action: planning multi-stage strategies, executing parallel searches, and generating executive reports.*
 
