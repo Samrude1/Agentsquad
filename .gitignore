@@ -51,5 +51,10 @@ dist-ssr/
 # Reports
 Reports/
 
+# Documentation & Examples
+demo_assets/
+docs/
+example_deep_research/
+
 # Logs
 *.log
