@@ -90,38 +90,16 @@ Agent_tools/
     └── package.json
 ```
 
-## 🚀 Quick Start
+## 📜 License & Usage
 
-### Setup
+This repository is primarily a **Showcase** of my technical skills and architectural capability.
+While the code is public to demonstrate code quality:
 
-1. **Clone and navigate**
-```bash
-git clone https://github.com/Samrude1/Agentsquad.git
-cd Agent_tools
-```
+1.  **Strictly Personal:** The design, copy, and specific implementation details are tailored to my personal brand.
+2.  **No License for Reuse:** Please do not fork, copy, or deploy this site as your own portfolio or application.
+3.  **Inquiries:** For business inquiries or collaboration, please contact me via LinkedIn.
 
-2. **Backend Engine Setup**
-```bash
-python -m venv .venv
-.\.venv\Scripts\activate
-pip install -r backend/requirements.txt
-cp .env.example .env  # Add your API keys here
-```
-
-3. **Frontend UI Setup**
-```bash
-cd frontend
-npm install
-```
-
-### Running the Platform
-
-**Production Mode (Web UI):**
-- **Backend**: `uvicorn backend.app.api:app --reload` (Port 8000)
-- **Frontend**: `npm run dev` (Port 5173)
-
-**Dev Mode (CLI):**
-- `python -m backend.app.main`
+*Looking for the live site? Visit my Portfolio.*
 
 ## 🧪 Tech Stack
 
@@ -139,7 +117,8 @@ This platform is built for **extensibility**:
 
 ---
 
-## 🤝 Contributing & License
+## 🤝 Contributing
 
-Designed for demonstration and portfolio use. Licensed under MIT.
+Designed for demonstration and portfolio use.
+Built with ❤️ by Samrude1.
 Built with ❤️ by Samrude1.
