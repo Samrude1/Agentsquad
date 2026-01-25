@@ -1,12 +1,12 @@
-# AI Agent Platform
+# Agentic Business Intelligence Platform
 
-> **The next generation of autonomous workforce.** A professional-grade, full-stack platform for building, orchestrating, and visualizing intelligent AI agents.
+> **Enterprise-Grade Multi-Agent Orchestration.** A production-ready platform for deploying, managing, and visualizing autonomous AI agent teams.
 
-## 🎬 Live Demo
+## 🎬 Live System
 
 ![AI Agent Platform Demo](assets/frontpage.gif)
 
-*Watch the Research Agent in action: planning multi-stage strategies, executing parallel searches, and generating executive reports.*
+*System in action: The Deep Research Team planning multi-stage strategies, executing parallel web operations, and generating executive-level synthesis.*
 
 ---
 
@@ -103,7 +103,7 @@ While the code is public to demonstrate code quality:
 
 ## 🧪 Tech Stack
 
-- **Backend**: Python 3.10+, FastAPI, OpenAI Agents SDK (Gemini 2.0 Flash)
+- **Backend**: Python 3.10+, FastAPI, OpenAI Agents SDK (Gemini 2.5 Flash)
 - **Search Engine**: Tavily AI
 - **Email Delivery**: SendGrid
 - **Frontend**: React 18, Vite, Vanilla CSS
