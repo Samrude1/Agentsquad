@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import ProcessLog from './ProcessLog';
+import { handleApiError } from '../utils/errorHandler';
 // Removed react-markdown import as we are previewing HTML directly
 
 export default function SalesForm({ onResult }) {
@@ -46,7 +47,7 @@ export default function SalesForm({ onResult }) {
             }
 
         } catch (error) {
-            onResult({ status: 'error', result: error.message });
+            onResult(handleApiError(error));
         } finally {
             setLoading(false);
         }
@@ -67,7 +68,7 @@ export default function SalesForm({ onResult }) {
             onResult({ status: 'success', result: "Email sent successfully!" });
 
         } catch (error) {
-            onResult({ status: 'error', result: "Failed to send email: " + error.message });
+            onResult(handleApiError(error));
         } finally {
             setLoading(false);
         }

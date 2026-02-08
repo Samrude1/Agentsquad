@@ -1,0 +1,45 @@
+research_task:
+  description: >
+    TODAY'S DATE: {current_date}. Search for CURRENT information from {last_year}-{current_year} only.
+    
+    Gather key intelligence about {topic} for an upcoming meeting:
+    1. Company Overview - What they do, size, headquarters, industry (current status)
+    2. Key Executives - CURRENT CEO and relevant leaders (verify names are {last_year}/{current_year})
+    3. Recent News - Major announcements from {last_year}-{current_year} ONLY (ignore older)
+    4. Products/Services - Their latest offerings
+    
+    IMPORTANT: Add "{last_year}" or "{current_year}" to your search queries to get current results.
+    Reject any outdated information from before {last_year}.
+  expected_output: >
+    Structured intelligence about {topic} with CURRENT data from {last_year}-{current_year} only.
+  agent: lead_researcher
+
+analysis_task:
+  description: >
+    Analyze the intelligence about {topic} to prepare meeting strategy:
+    1. Talking Points - 3-5 conversation starters based on their recent news
+    2. Potential Opportunities - How might you work together? What problems might they have?
+    3. Questions to Ask - Smart questions that show you did your homework
+  expected_output: >
+    Strategic meeting preparation including talking points, opportunities, and suggested questions.
+  agent: meeting_analyst
+  context:
+    - research_task
+
+briefing_task:
+  description: >
+    Create a professional meeting briefing for {topic}.
+    
+    Provide the following information:
+    - company_snapshot: Brief overview of what they do, size, headquarters
+    - key_people: List of key executives with titles (e.g., "John Doe - CEO")
+    - recent_developments: 3-5 recent news items or announcements
+    - talking_points: 3-5 conversation starters for the meeting
+    - questions_to_consider: 3-5 smart questions to ask
+    
+    Be concise and factual. Focus on actionable intelligence.
+  expected_output: >
+    Structured meeting briefing data.
+  agent: briefing_coordinator
+  context:
+    - analysis_task

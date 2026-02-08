@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import ProcessLog from './ProcessLog';
+import { handleApiError } from '../utils/errorHandler';
 
 export default function ResearchForm({ onResult }) {
     const [topic, setTopic] = useState('');
@@ -17,7 +18,7 @@ export default function ResearchForm({ onResult }) {
             });
             onResult(response.data);
         } catch (error) {
-            onResult({ status: 'error', result: error.message });
+            onResult(handleApiError(error));
         } finally {
             setLoading(false);
         }

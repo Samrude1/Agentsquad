@@ -32,6 +32,6 @@ client = AsyncOpenAI(
 
 # Shared model instance to be used by all agents
 default_model = OpenAIChatCompletionsModel(
-    model="gemini-2.0-flash", 
+    model="gemini-2.5-flash", 
     openai_client=client
 )

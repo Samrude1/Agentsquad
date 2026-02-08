@@ -58,3 +58,15 @@ example_deep_research/
 
 # Logs
 *.log
+
+# Test scripts (local development only)
+test_rate_limits.py
+debug_model.py
+verify_model.py
+
+# Local documentation (not for public repo)
+ohje.html
+
+# Antigravity brain artifacts (conversation-specific)
+.gemini/
+

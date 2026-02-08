@@ -1,4 +1,5 @@
 from typing import List
+from datetime import date
 from pydantic import BaseModel, Field
 from agents import Agent
 from backend.app.core.config import default_model
@@ -12,17 +13,33 @@ class WebSearchItem(BaseModel):
 class WebSearchPlan(BaseModel):
     searches: List[WebSearchItem] = Field(description="3 optimized web searches.")
 
+# --- Helper to get current date ---
+def get_current_date_str():
+    return date.today().strftime("%B %Y")  # e.g., "February 2026"
+
+def get_current_year():
+    return date.today().year
+
 # --- 3 RESEARCH AGENTS ---
 
-# Agent 1: The Planner
-planner_agent = Agent(
-    name="Research Planner",
-    instructions="""You are a Research Strategist.
+# Agent 1: The Planner (with dynamic date)
+def create_planner_agent():
+    current_date = get_current_date_str()
+    current_year = get_current_year()
+    return Agent(
+        name="Research Planner",
+        instructions=f"""You are a Research Strategist.
+TODAY'S DATE: {current_date}. Always search for CURRENT information.
+
 Break down the topic into 3 surgical search queries.
-Target technical terms, benchmarks, and recent developments.""",
-    model=default_model,
-    output_type=WebSearchPlan,
-)
+Target technical terms, benchmarks, and recent developments from {current_year-1}-{current_year}.
+IMPORTANT: Add "{current_year-1}" or "{current_year}" to queries when searching for current data.""",
+        model=default_model,
+        output_type=WebSearchPlan,
+    )
+
+# Keep backward compatibility
+planner_agent = create_planner_agent()
 
 # Agent 2: The Search Analyst (runs multiple times in parallel)
 search_agent = Agent(

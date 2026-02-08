@@ -37,21 +37,58 @@ const RESEARCH_LOGS = [
     "Research task complete."
 ];
 
+const MEETING_PREP_LOGS = [
+    "Initializing Meeting Prep AI [CrewAI]...",
+    "> Deploying 3-agent crew",
+    "Agent 1: Company Intel Researcher online",
+    "> Searching: Company overview",
+    "> Searching: Key executives",
+    "> Searching: Recent news [6 months]",
+    "Intel gathered: 12 sources processed [OK]",
+    "Agent 2: Meeting Strategy Analyst online",
+    "> Analyzing: Talking points",
+    "> Analyzing: Potential opportunities",
+    "> Generating: Smart questions",
+    "Strategy complete [OK]",
+    "Agent 3: Briefing Coordinator online",
+    "> Building section: Company Snapshot",
+    "> Building section: Key People",
+    "> Building section: Recent Developments",
+    "> Building section: Talking Points",
+    "> Building section: Questions",
+    "Finalizing executive briefing...",
+    "Saving to Reports folder...",
+    "Briefing ready."
+];
+
 export default function ProcessLog({ agentType = 'sales' }) {
     const [logs, setLogs] = useState([]);
-    const fullLogs = agentType === 'sales' ? SALES_LOGS : RESEARCH_LOGS;
+    const [isBuilding, setIsBuilding] = useState(false);
+
+    const getLogsForType = (type) => {
+        switch (type) {
+            case 'sales': return SALES_LOGS;
+            case 'research': return RESEARCH_LOGS;
+            case 'meeting-prep': return MEETING_PREP_LOGS;
+            default: return SALES_LOGS;
+        }
+    };
+
+    const fullLogs = getLogsForType(agentType);
 
     useEffect(() => {
         let currentIndex = 0;
+        const showSpinnerAfter = 5; // Show spinner after this many logs
+
         const interval = setInterval(() => {
-            if (currentIndex < fullLogs.length) {
+            if (currentIndex < fullLogs.length && currentIndex < showSpinnerAfter) {
                 setLogs(prev => [...prev, fullLogs[currentIndex]]);
                 currentIndex++;
-            } else {
-                // After logs finish, keep showing "Creating report..." to indicate work is ongoing
-                setLogs(prev => [...prev, "> Processing data..."]);
+            } else if (!isBuilding) {
+                // Switch to building indicator after a few logs
+                setIsBuilding(true);
             }
-        }, 800);
+        }, 600); // Faster log display
 
         return () => clearInterval(interval);
     }, [agentType]);
@@ -71,8 +108,22 @@ export default function ProcessLog({ agentType = 'sales' }) {
                         <span className="log-timestamp">[{new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' })}]</span> {log}
                     </div>
                 ))}
-                <div className="log-line blinking-cursor">_</div>
+                {!isBuilding && <div className="log-line blinking-cursor">_</div>}
             </div>
+
+            {isBuilding && (
+                <div className="ai-building-indicator">
+                    <div className="ai-spinner"></div>
+                    <div className="ai-building-text">
+                        <span className="loading-dots">AI is building your report</span>
+                    </div>
+                    <div className="ai-building-subtext">This may take 30-60 seconds</div>
+                    <div className="ai-progress-bar">
+                        <div className="ai-progress-fill"></div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
+

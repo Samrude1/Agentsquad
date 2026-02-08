@@ -1,4 +1,5 @@
 import asyncio
+from datetime import date
 from agents import Runner
 from backend.app.agents.research.squad import planner_agent, search_agent, writer_agent
 from backend.app.core.utils import save_markdown_report, convert_to_html
@@ -29,6 +30,10 @@ async def run_deep_research(topic: str):
         writer_agent, 
         f"Topic: {topic}\n\nResearch Data:\n{combined_data}"
     )).final_output
+
+    # Add date header
+    today = date.today().strftime("%B %d, %Y")
+    final_report = f"# Research Report: {topic}\n*Report generated: {today}*\n\n{final_report}"
 
     print("\n=== VALMIS ===\n")
     
