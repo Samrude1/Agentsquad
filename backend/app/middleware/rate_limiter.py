@@ -1,7 +1,7 @@
 """
 Rate limiting middleware for API protection.
 
-Designed for portfolio demo with recruiter-friendly limits:
+Designed for portfolio demo with user-friendly limits:
 - Allows thorough testing of all features
 - Prevents API abuse and cost overruns
 - Provides clear feedback when limits are reached
@@ -25,7 +25,7 @@ class RateLimiter:
         # Store: {ip_address: [(timestamp, endpoint), ...]}
         self.requests: Dict[str, list] = defaultdict(list)
         
-        # Rate limits optimized for recruiter testing
+        # Rate limits optimized for thorough testing
         self.limits = {
             # Agent endpoints - allow thorough testing but prevent abuse
             "agent": {

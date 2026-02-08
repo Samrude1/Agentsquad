@@ -1,8 +1,8 @@
 # Rate Limiting Configuration
 
-## Suositellut rajat portfoliodemoon (Rekrytoijat)
+## Suositellut rajat portfoliodemoon
 
-Nämä rajat on optimoitu niin, että rekrytoija voi testata kaikki ominaisuudet rauhassa, mutta väärinkäyttö estyy:
+Nämä rajat on optimoitu niin, että käyttäjä voi testata kaikki ominaisuudet rauhassa, mutta väärinkäyttö estyy:
 
 ### Agenttirajat (Sales, Research, Meeting Prep)
 - **5 kutsua / 15 minuuttia** - Riittää kaikkien kolmen agentin testaamiseen + uudelleenyritykset
@@ -15,7 +15,7 @@ Nämä rajat on optimoitu niin, että rekrytoija voi testata kaikki ominaisuudet
 
 ## Miksi nämä rajat?
 
-✅ **Rekrytoija-ystävällinen:**
+✅ **Käyttäjäystävällinen:**
 - Voi testata jokaisen agentin (3 agenttia × 2 testiä = 6 kutsua)
 - Aikaa kokeilla eri syötteitä
 - Ei tarvitse odotella testien välillä
