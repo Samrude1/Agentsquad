@@ -4,6 +4,7 @@ import ResearchForm from './components/ResearchForm';
 import MeetingPrepForm from './components/MeetingPrepForm';
 import ResultsView from './components/ResultsView';
 import LoginPage from './components/LoginPage';
+import { getApiUrl } from './utils/api';
 import './style.css';
 
 function App() {
@@ -18,7 +19,7 @@ function App() {
 
   const checkAuth = async () => {
     try {
-      const res = await fetch('http://localhost:8000/api/config/auth-enabled');
+      const res = await fetch(getApiUrl('api/config/auth-enabled'));
       const data = await res.json();
 
       if (!data.enabled) {
@@ -27,7 +28,7 @@ function App() {
         const storedPin = localStorage.getItem('agent_platform_pin');
         if (storedPin) {
           // Verify stored pin
-          const vRes = await fetch('http://localhost:8000/api/auth/verify', {
+          const vRes = await fetch(getApiUrl('api/auth/verify'), {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ pin: storedPin }),
@@ -48,7 +49,7 @@ function App() {
   return (
     <div className="app-container">
       <div className="content-wrapper">
-        <h1 className="app-title">AI Agent Platform</h1>
+        <h1 className="app-title">Agent Squad</h1>
 
         <div className="tab-navigation">
           <button

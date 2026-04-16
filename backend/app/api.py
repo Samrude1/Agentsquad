@@ -7,7 +7,7 @@ from backend.app.agents.research.flow import run_deep_research
 from backend.app.agents.meeting_prep.flow import run_meeting_prep
 from backend.app.middleware.rate_limiter import rate_limit_middleware
 
-app = FastAPI(title="Smart Outreach Manager API")
+app = FastAPI(title="Agent Squad API", version="1.0.0")
 
 # Rate limiting middleware (applied first)
 app.middleware("http")(rate_limit_middleware)
@@ -114,9 +114,11 @@ async def verify_pin(req: AuthRequest):
 
 @app.get("/api/config/auth-enabled")
 async def is_auth_enabled():
-    # It's enabled if APP_PIN is set and not empty
-    pin = os.getenv("APP_PIN")
-    return {"enabled": bool(pin)}
+    # Authentication is currently disabled for easier demo access.
+    # To re-enable, uncomment the lines below and set APP_PIN in your environment.
+    # pin = os.getenv("APP_PIN")
+    # return {"enabled": bool(pin)}
+    return {"enabled": False}
 
 @app.get("/")
 async def root():

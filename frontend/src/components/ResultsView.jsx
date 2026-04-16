@@ -18,11 +18,28 @@ export default function ResultsView({ result }) {
         );
     }
 
+    const downloadReport = () => {
+        const element = document.createElement("a");
+        const file = new Blob([result.result], {type: 'text/markdown'});
+        element.href = URL.createObjectURL(file);
+        element.download = `AgentSquad_Report_${new Date().toISOString().split('T')[0]}.md`;
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element);
+    };
+
     return (
         <div className="results-container">
-            <h3 className="results-title">
-                {result.status === 'success' ? '✅ Result' : '❌ Error'}
-            </h3>
+            <div className="results-header">
+                <h3 className="results-title">
+                    {result.status === 'success' ? '✅ Result' : '❌ Error'}
+                </h3>
+                {result.status === 'success' && (
+                    <button onClick={downloadReport} className="download-button">
+                        📥 Download .md
+                    </button>
+                )}
+            </div>
 
             <div className={`results-content ${result.status === 'error' ? 'error-content' : 'markdown-content'}`}>
                 {result.status === 'success' ? (

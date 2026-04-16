@@ -160,15 +160,42 @@ textarea.form-input {
     border: 1px solid #e5e7eb;
 }
 
+.results-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 1rem;
+    margin-bottom: 2rem;
+}
+
 .results-title {
     font-size: 1rem;
     font-weight: 600;
     color: #9ca3af;
     text-transform: uppercase;
     letter-spacing: 1px;
-    border-bottom: 1px solid #e5e7eb;
-    padding-bottom: 1rem;
-    margin-bottom: 2rem;
+    margin: 0;
+}
+
+.download-button {
+    background-color: #111;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.2s;
+}
+
+.download-button:hover {
+    background-color: #333;
+    transform: translateY(-1px);
 }
 
 /* Markdown Typography */
@@ -345,6 +372,17 @@ textarea.form-input {
     padding: 1rem;
     border-radius: 4px;
     font-size: 1rem;
+}
+
+.info-note {
+    background-color: #eff6ff;
+    border: 1px solid #bfdbfe;
+    color: #1e40af;
+    padding: 1rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    margin-bottom: 2rem;
+    text-align: center;
 }
 
 /* Login Page Styles */

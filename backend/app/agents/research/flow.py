@@ -37,9 +37,9 @@ async def run_deep_research(topic: str):
 
     print("\n=== VALMIS ===\n")
     
-    # Save to unique folder
-    if md_file := save_markdown_report(final_report, topic):
-        convert_to_html(final_report, topic, md_file)
+    # Local saving disabled for cloud deployment
+    # if md_file := save_markdown_report(final_report, topic):
+    #     convert_to_html(final_report, topic, md_file)
 
     return final_report
 

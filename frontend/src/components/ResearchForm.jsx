@@ -2,6 +2,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import ProcessLog from './ProcessLog';
 import { handleApiError } from '../utils/errorHandler';
+import { getApiUrl } from '../utils/api';
 
 export default function ResearchForm({ onResult }) {
     const [topic, setTopic] = useState('');
@@ -13,7 +14,7 @@ export default function ResearchForm({ onResult }) {
         onResult(null);
 
         try {
-            const response = await axios.post('http://localhost:8000/api/research', {
+            const response = await axios.post(getApiUrl('api/research'), {
                 topic: topic
             });
             onResult(response.data);

@@ -55,9 +55,9 @@ async def run_meeting_prep(topic: str) -> str:
         
         print("\n=== MEETING PREP COMPLETE ===\n")
         
-        # Save to Reports folder
-        if md_file := save_markdown_report(clean_output, topic):
-            convert_to_html(clean_output, topic, md_file)
+        # Local saving disabled for cloud deployment
+        # if md_file := save_markdown_report(clean_output, topic):
+        #     convert_to_html(clean_output, topic, md_file)
             
         return clean_output
         

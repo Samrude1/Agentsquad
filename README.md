@@ -1,6 +1,6 @@
-# AI Agent Platform
+# Agent Squad
 
-> **Professional-grade, full-stack orchestration platform for autonomous AI agents.** Built with production-ready architecture, enterprise security, and scalable multi-agent coordination.
+> **Professional-grade, multi-agent orchestration platform for autonomous sales intelligence, deep research, and meeting preparation.**
 
 [![Python 3.12+](https://img.shields.io/badge/python-3.12%2B-blue.svg)](https://www.python.org/downloads/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-green.svg)](https://fastapi.tiangolo.com/)
@@ -195,9 +195,12 @@ Agent_tools/
 │   ├── package.json                # Node dependencies
 │   └── vite.config.js              # Vite configuration
 ├── Reports/                        # Generated reports (timestamped)
+├── docs/                           # Documentation and guides
+│   ├── RATE_LIMITS.md              # Rate limiting details
+│   ├── RUNTHIS.md                  # Quick startup guide
+│   └── guide.md                    # Technical documentation
 ├── .env.example                    # Environment template
-├── RATE_LIMITS.md                  # Rate limiting documentation
-├── RUNTHIS.md                      # Quick start guide
+├── walkthrough.md                  # NEW: Deployment guide
 └── README.md                       # This file
 ```
 

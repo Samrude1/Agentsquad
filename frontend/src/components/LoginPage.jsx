@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { getApiUrl } from '../utils/api';
 
 const LoginPage = ({ onSuccess }) => {
     const [pin, setPin] = useState('');
@@ -11,7 +12,7 @@ const LoginPage = ({ onSuccess }) => {
         setError('');
 
         try {
-            const response = await fetch('http://localhost:8000/api/auth/verify', {
+            const response = await fetch(getApiUrl('api/auth/verify'), {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ pin }),

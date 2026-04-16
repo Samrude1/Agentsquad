@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import ProcessLog from './ProcessLog';
 import { handleApiError } from '../utils/errorHandler';
+import { getApiUrl } from '../utils/api';
 
 const MeetingPrepForm = ({ onResult }) => {
     const [topic, setTopic] = useState('');
@@ -14,7 +15,7 @@ const MeetingPrepForm = ({ onResult }) => {
         onResult({ status: 'running', agent: 'Meeting Prep', message: 'Preparing your briefing...' });
 
         try {
-            const response = await fetch('http://localhost:8000/api/meeting-prep', {
+            const response = await fetch(getApiUrl('api/meeting-prep'), {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ topic }),

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import ProcessLog from './ProcessLog';
 import { handleApiError } from '../utils/errorHandler';
+import { getApiUrl } from '../utils/api';
 // Removed react-markdown import as we are previewing HTML directly
 
 export default function SalesForm({ onResult }) {
@@ -30,7 +31,7 @@ export default function SalesForm({ onResult }) {
 
         try {
             // Note: Updated endpoint to /api/sales/draft
-            const response = await axios.post('http://localhost:8000/api/sales/draft', {
+            const response = await axios.post(getApiUrl('api/sales/draft'), {
                 contact_name: contactName || "",
                 company_name: companyName || "",
                 prospect_email: prospectEmail,
@@ -56,7 +57,7 @@ export default function SalesForm({ onResult }) {
     const handleSendEmail = async () => {
         setLoading(true);
         try {
-            await axios.post('http://localhost:8000/api/sales/send', {
+            await axios.post(getApiUrl('api/sales/send'), {
                 to_email: currentDraft.to_email,
                 subject: currentDraft.subject,
                 html_body: currentDraft.html_body
@@ -134,6 +135,10 @@ export default function SalesForm({ onResult }) {
     return (
         <div className="form-container">
             <h2 className="form-title">Sales Email Generator</h2>
+            
+            <div className="info-note">
+                ℹ️ Emails will be sent from <strong>samrude1@outlook.com</strong> via SendGrid.
+            </div>
 
             <form onSubmit={handleGenerateDraft}>
                 <div className="form-group">
