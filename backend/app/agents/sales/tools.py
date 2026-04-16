@@ -18,8 +18,14 @@ def _send_email_raw(to_email: str, subject: str, html_body: str) -> Dict[str, st
         print(f"SendGrid status code: {response.status_code}")
         return {"status": "success"}
     except Exception as e:
-        print(f"SendGrid error: {e}")
-        return {"status": "error", "message": str(e)}
+        error_msg = str(e)
+        if "401" in error_msg:
+            error_msg = "SendGrid Authentication Error: Check your API key."
+        elif "403" in error_msg or "429" in error_msg:
+            error_msg = "SendGrid Limit Reached: Daily free tier quota exceeded."
+        
+        print(f"SendGrid error: {error_msg}")
+        return {"status": "error", "message": error_msg}
 
 @function_tool
 def send_email(to_email: str, subject: str, html_body: str) -> Dict[str, str]:

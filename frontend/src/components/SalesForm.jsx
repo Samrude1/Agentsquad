@@ -111,22 +111,55 @@ export default function SalesForm({ onResult }) {
                     <div dangerouslySetInnerHTML={{ __html: currentDraft.html_body }} />
                 </div>
 
-                <div style={{ display: 'flex', gap: '1rem' }}>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
                     <button
                         onClick={handleSendEmail}
                         className="submit-button sales"
-                        style={{ backgroundColor: '#16a34a' }} // Green for go
+                        style={{ backgroundColor: '#16a34a', flex: '1', minWidth: '150px' }} 
                     >
-                        Approve & Send Email
+                        🚀 Approve & Send
                     </button>
+                    
+                    <button
+                        onClick={() => {
+                            const text = currentDraft.html_body.replace(/<[^>]*>?/gm, ''); // Simple strip HTML
+                            navigator.clipboard.writeText(text);
+                            alert("Text content copied to clipboard!");
+                        }}
+                        className="submit-button"
+                        style={{ backgroundColor: '#4b5563', flex: '1', minWidth: '150px' }}
+                    >
+                        📋 Copy Text
+                    </button>
+
+                    <a
+                        href={`mailto:${currentDraft.to_email}?subject=${encodeURIComponent(currentDraft.subject)}&body=${encodeURIComponent(currentDraft.html_body.replace(/<[^>]*>?/gm, ''))}`}
+                        className="submit-button"
+                        style={{ 
+                            backgroundColor: '#2563eb', 
+                            flex: '1', 
+                            minWidth: '150px', 
+                            textDecoration: 'none', 
+                            display: 'flex', 
+                            alignItems: 'center', 
+                            justifyContent: 'center' 
+                        }}
+                    >
+                        ✉️ Open in Mail App
+                    </a>
+
                     <button
                         onClick={handleDiscard}
                         className="submit-button"
-                        style={{ backgroundColor: '#dc2626' }} // Red for stop
+                        style={{ backgroundColor: '#dc2626', flex: '1', minWidth: '150px' }}
                     >
-                        Discard & Try Again
+                        🗑️ Discard
                     </button>
                 </div>
+                
+                <p style={{ marginTop: '1rem', fontSize: '0.85rem', color: '#6b7280', textAlign: 'center' }}>
+                    <em>Tip: If the automatic send fails (daily limit), use the Copy or Open buttons above.</em>
+                </p>
             </div>
         );
     }

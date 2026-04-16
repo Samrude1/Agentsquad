@@ -2,6 +2,7 @@ from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
 from crewai_tools import TavilySearchTool
 from meeting_prep.schemas import MeetingBriefing
+from backend.app.core.config import crew_llm
 
 @CrewBase
 class MeetingPrepCrew():
@@ -15,7 +16,8 @@ class MeetingPrepCrew():
         return Agent(
             config=self.agents_config['lead_researcher'],
             verbose=True,
-            tools=[TavilySearchTool()]
+            tools=[TavilySearchTool()],
+            llm=crew_llm
         )
 
     @agent
@@ -23,6 +25,7 @@ class MeetingPrepCrew():
         return Agent(
             config=self.agents_config['meeting_analyst'],
             verbose=True,
+            llm=crew_llm
         )
 
     @agent
@@ -30,6 +33,7 @@ class MeetingPrepCrew():
         return Agent(
             config=self.agents_config['briefing_coordinator'],
             verbose=True,
+            llm=crew_llm
         )
 
     @task
