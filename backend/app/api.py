@@ -78,6 +78,8 @@ async def send_endpoint(req: SendRequest):
     try:
         from backend.app.agents.sales.tools import _send_email_raw
         result = _send_email_raw(req.to_email, req.subject, req.html_body)
+        if result.get("status") == "error":
+            raise HTTPException(status_code=400, detail=result.get("message"))
         return result
     except Exception as e:
         import traceback

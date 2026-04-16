@@ -170,7 +170,7 @@ export default function SalesForm({ onResult }) {
             <h2 className="form-title">Sales Email Generator</h2>
             
             <div className="info-note">
-                ℹ️ Emails will be sent from <strong>samrude1@outlook.com</strong> via SendGrid.
+                ℹ️ Emails will be sent via <strong>Resend</strong>. (using onboarding@resend.dev)
             </div>
 
             <form onSubmit={handleGenerateDraft}>
