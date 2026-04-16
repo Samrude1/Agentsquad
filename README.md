@@ -387,30 +387,30 @@ graph LR
 
 ### Backend
 
-| Technology | Version | Purpose |
-|------------|---------|---------|
-| **Python** | 3.12/3.13 | Runtime (3.14 incompatible with CrewAI) |
-| **FastAPI** | Latest | REST API framework |
-| **Uvicorn** | Latest | ASGI server |
-| **CrewAI** | 1.8.1 | Multi-agent framework (Meeting Prep) |
-| **OpenAI Agents SDK** | Latest | Agent framework (Sales, Research) |
-| **Pydantic** | Latest | Data validation |
-| **Tavily** | Latest | AI-powered search API |
-| **DuckDuckGo Search** | 5.0.0+ | Web search (via langchain) |
-| **SendGrid** | Latest | Email delivery (optional) |
-| **python-dotenv** | Latest | Environment management |
-| **Markdown** | Latest | Report generation |
+| Technology            | Version   | Purpose                                 |
+| --------------------- | --------- | --------------------------------------- |
+| **Python**            | 3.12/3.13 | Runtime (3.14 incompatible with CrewAI) |
+| **FastAPI**           | Latest    | REST API framework                      |
+| **Uvicorn**           | Latest    | ASGI server                             |
+| **CrewAI**            | 1.8.1     | Multi-agent framework (Meeting Prep)    |
+| **OpenAI Agents SDK** | Latest    | Agent framework (Sales, Research)       |
+| **Pydantic**          | Latest    | Data validation                         |
+| **Tavily**            | Latest    | AI-powered search API                   |
+| **DuckDuckGo Search** | 5.0.0+    | Web search (via langchain)              |
+| **SendGrid**          | Latest    | Email delivery (optional)               |
+| **python-dotenv**     | Latest    | Environment management                  |
+| **Markdown**          | Latest    | Report generation                       |
 
 ### Frontend
 
-| Technology | Version | Purpose |
-|------------|---------|---------|
-| **React** | 19.2.0 | UI framework |
-| **Vite** | 7.2.4 | Build tool & dev server |
-| **Axios** | 1.13.2 | HTTP client |
-| **react-markdown** | 10.1.0 | Markdown rendering |
-| **ESLint** | 9.39.1 | Code linting |
-| **Vanilla CSS** | - | Styling (no framework) |
+| Technology         | Version | Purpose                 |
+| ------------------ | ------- | ----------------------- |
+| **React**          | 19.2.0  | UI framework            |
+| **Vite**           | 7.2.4   | Build tool & dev server |
+| **Axios**          | 1.13.2  | HTTP client             |
+| **react-markdown** | 10.1.0  | Markdown rendering      |
+| **ESLint**         | 9.39.1  | Code linting            |
+| **Vanilla CSS**    | -       | Styling (no framework)  |
 
 ### LLM & APIs
 
@@ -551,14 +551,14 @@ npm run dev
 
 ### Environment Variables
 
-| Variable | Required | Default | Description |
-|----------|----------|---------|-------------|
-| `OPENAI_API_KEY` | ✅ Yes | - | Gemini API key |
-| `OPENAI_BASE_URL` | ✅ Yes | `https://generativelanguage.googleapis.com/v1beta/openai/` | Gemini endpoint |
-| `TAVILY_API_KEY` | ✅ Yes | - | Tavily search API key |
-| `SENDGRID_API_KEY` | ❌ No | - | SendGrid email API key |
-| `APP_PIN` | ❌ No | `0000` | PIN for authentication |
-| `FRONTEND_URL` | ❌ No | - | Production frontend URL for CORS |
+| Variable           | Required | Default                                                    | Description                      |
+| ------------------ | -------- | ---------------------------------------------------------- | -------------------------------- |
+| `OPENAI_API_KEY`   | ✅ Yes    | -                                                          | Gemini API key                   |
+| `OPENAI_BASE_URL`  | ✅ Yes    | `https://generativelanguage.googleapis.com/v1beta/openai/` | Gemini endpoint                  |
+| `TAVILY_API_KEY`   | ✅ Yes    | -                                                          | Tavily search API key            |
+| `SENDGRID_API_KEY` | ❌ No     | -                                                          | SendGrid email API key           |
+| `APP_PIN`          | ❌ No     | `0000`                                                     | PIN for authentication           |
+| `FRONTEND_URL`     | ❌ No     | -                                                          | Production frontend URL for CORS |
 
 ### Rate Limiting Configuration
 
@@ -729,18 +729,18 @@ FastAPI provides automatic interactive documentation:
 
 #### Agent Endpoints (`/api/sales/`, `/api/research`, `/api/meeting-prep`)
 
-| Window | Limit | Rationale |
-|--------|-------|-----------|
-| 15 minutes | 5 requests | Test all 3 agents + retries |
-| 1 hour | 10 requests | Thorough testing session |
-| 24 hours | 25 requests | Generous daily allowance |
+| Window     | Limit       | Rationale                   |
+| ---------- | ----------- | --------------------------- |
+| 15 minutes | 5 requests  | Test all 3 agents + retries |
+| 1 hour     | 10 requests | Thorough testing session    |
+| 24 hours   | 25 requests | Generous daily allowance    |
 
 #### General Endpoints (`/api/auth/`, `/api/config/`)
 
-| Window | Limit | Rationale |
-|--------|-------|-----------|
-| 1 minute | 30 requests | Normal UI interactions |
-| 1 hour | 500 requests | Prevent automated attacks |
+| Window   | Limit        | Rationale                 |
+| -------- | ------------ | ------------------------- |
+| 1 minute | 30 requests  | Normal UI interactions    |
+| 1 hour   | 500 requests | Prevent automated attacks |
 
 #### Rate Limit Headers
 
