@@ -268,12 +268,9 @@ textarea.form-input {
     border: 1px solid #e5e7eb;
     font-family: 'Courier New', Courier, monospace;
     font-size: 0.95rem;
-    min-height: 280px;
-    max-height: 400px;
     max-width: 40rem;
     margin: 1.5rem auto 0;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-    overflow: hidden;
 }
 
 .process-log-header {

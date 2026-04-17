@@ -170,9 +170,6 @@ export default function SalesForm({ onResult }) {
         <div className="form-container">
             <h2 className="form-title">Sales Email Generator</h2>
             
-            <div className="info-note">
-                ℹ️ Emails will be sent via <strong>Resend</strong> from <strong>info@samirautanen.fi</strong>
-            </div>
 
             <form onSubmit={handleGenerateDraft}>
                 <div className="form-group">
