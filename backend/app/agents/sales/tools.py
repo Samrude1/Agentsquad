@@ -9,8 +9,9 @@ def _send_email_raw(to_email: str, subject: str, html_body: str) -> Dict[str, st
     try:
         resend.api_key = os.environ.get('RESEND_API_KEY')
         
-        # Use onboarding address for demo
-        from_email = "Agent Squad <onboarding@resend.dev>"
+        # Power User: User can set their verified sender email in HF Secrets
+        # Fallback to onboarding only for initial testing
+        from_email = os.environ.get('SENDER_EMAIL', "Agent Squad <onboarding@resend.dev>")
         
         response = resend.Emails.send({
             "from": from_email,

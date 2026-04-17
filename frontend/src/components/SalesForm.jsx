@@ -104,6 +104,7 @@ export default function SalesForm({ onResult }) {
                     borderRadius: '8px'
                 }}>
                     <div style={{ marginBottom: '1rem', borderBottom: '1px solid #eee', paddingBottom: '1rem' }}>
+                        <p><strong>From:</strong> Agent Squad &lt;info@samirautanen.fi&gt;</p>
                         <p><strong>To:</strong> {currentDraft.to_email}</p>
                         <p><strong>Subject:</strong> {currentDraft.subject}</p>
                     </div>
