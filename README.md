@@ -88,68 +88,40 @@ The **AI Agent Platform** is a production-ready framework for building, orchestr
 ### System Overview
 
 ```mermaid
-graph TB
-    subgraph "Frontend (React + Vite)"
-        UI[User Interface]
-        LoginPage[Login Page]
-        SalesForm[Sales Form]
-        ResearchForm[Research Form]
-        MeetingForm[Meeting Prep Form]
-        ProcessLog[Process Log Console]
-        ResultsView[Results View]
+graph LR
+    subgraph Frontend ["Frontend (React + Vite)"]
+        UI["User Interface"]
+        Console["Real-time Console"]
     end
 
-    subgraph "Backend (FastAPI)"
-        API[FastAPI Server]
-        RateLimiter[Rate Limiter Middleware]
-        AuthMiddleware[Auth Verification]
+    subgraph Backend ["Backend (FastAPI)"]
+        API["FastAPI Server"]
+        Security["Auth & Rate Limiting"]
         
-        subgraph "Agent Teams"
-            SalesTeam[Sales Team - 6 Agents]
-            ResearchTeam[Research Team - 3 Agents]
-            MeetingTeam[Meeting Prep - CrewAI]
+        subgraph Agents ["Agent Orchestrators"]
+            Sales["Sales Intelligence"]
+            Research["Deep Research"]
+            Meeting["Meeting Prep"]
         end
         
-        subgraph "Core Services"
-            Config[Configuration]
-            Utils[Utilities]
-            ReportGen[Report Generator]
-        end
+        Services["Core Services & Reporting"]
     end
 
-    subgraph "External Services"
-        Gemini[Gemini 2.5 Flash]
-        Tavily[Tavily Search API]
-        DuckDuckGo[DuckDuckGo Search]
-        SendGrid[SendGrid Email]
+    subgraph External ["External Services"]
+        LLM["Gemini 2.5 Flash"]
+        Search["Search APIs"]
+        Email["SendGrid"]
     end
 
-    UI --> LoginPage
-    LoginPage --> API
-    SalesForm --> API
-    ResearchForm --> API
-    MeetingForm --> API
-    
-    API --> RateLimiter
-    RateLimiter --> AuthMiddleware
-    AuthMiddleware --> SalesTeam
-    AuthMiddleware --> ResearchTeam
-    AuthMiddleware --> MeetingTeam
-    
-    SalesTeam --> Gemini
-    SalesTeam --> SendGrid
-    ResearchTeam --> Gemini
-    ResearchTeam --> Tavily
-    MeetingTeam --> Gemini
-    MeetingTeam --> DuckDuckGo
-    
-    SalesTeam --> ReportGen
-    ResearchTeam --> ReportGen
-    MeetingTeam --> ReportGen
-    
-    ReportGen --> ResultsView
-    ProcessLog -.->|Real-time logs| API
+    UI <--> API
+    API --> Security
+    Security --> Agents
+    Agents <--> External
+    Agents --> Services
+    Services --> UI
+    Console -.->|Streams| API
 ```
+
 
 ### Directory Structure
 
