@@ -82,6 +82,10 @@ The **AI Agent Platform** is a production-ready framework for building, orchestr
 - **Citation support** for research reports
 - **Export functionality** for generated content
 
+### 🛡️ Rate Limit Resilience
+- **Automatic Model Fallback**: Automatically switches to stable models (Gemini 1.5 Flash) if primary model (Gemini 3 Flash) limits are hit.
+- **Smart Retries**: Implements staggered retry logic with increasing delays for 429 errors.
+
 ---
 
 ## 🏗️ Architecture
