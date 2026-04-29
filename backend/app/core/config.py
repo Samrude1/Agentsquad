@@ -32,11 +32,13 @@ client = AsyncOpenAI(
 )
 
 # OpenAI-based models (OpenAI Agents SDK)
+# gemini-2.5-flash: GA stable production model (released June 2025)
 default_model = OpenAIChatCompletionsModel(
-    model="gemini-3-flash", 
+    model="gemini-2.5-flash", 
     openai_client=client
 )
 
+# Fallback: gemini-1.5-flash is reliable and widely supported
 budget_model = OpenAIChatCompletionsModel(
     model="gemini-1.5-flash",
     openai_client=client
@@ -45,7 +47,7 @@ budget_model = OpenAIChatCompletionsModel(
 # LiteLLM-based models for Meeting Prep (CrewAI)
 # Using the same OpenAI-compatible gateway
 crew_llm = LLM(
-    model="openai/gemini-3-flash",
+    model="openai/gemini-2.5-flash",
     base_url=os.getenv("OPENAI_BASE_URL", "https://generativelanguage.googleapis.com/v1beta/openai/"),
     api_key=os.getenv("OPENAI_API_KEY")
 )
