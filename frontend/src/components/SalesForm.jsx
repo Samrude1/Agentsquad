@@ -2,7 +2,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import ProcessLog from './ProcessLog';
 import { handleApiError } from '../utils/errorHandler';
-import { getApiUrl } from '../utils/api';
+import { getApiUrl, getAuthHeaders } from '../utils/api';
 // Removed react-markdown import as we are previewing HTML directly
 
 export default function SalesForm({ onResult }) {
@@ -37,6 +37,8 @@ export default function SalesForm({ onResult }) {
                 prospect_email: prospectEmail,
                 sender_name: senderName,
                 product_description: productDescription
+            }, {
+                headers: getAuthHeaders()
             });
 
             // The backend returns { status: "success", draft: { status: "draft_created", html_body: "...", ... } }
@@ -61,7 +63,10 @@ export default function SalesForm({ onResult }) {
                 to_email: currentDraft.to_email,
                 subject: currentDraft.subject,
                 html_body: currentDraft.html_body
+            }, {
+                headers: getAuthHeaders()
             });
+
 
             // Success! Reset UI
             setDraftMode(false);

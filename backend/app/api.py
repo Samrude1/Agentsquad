@@ -1,13 +1,14 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Header, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import os
+from typing import Optional, Annotated
 from backend.app.agents.sales.flow import run_sales_flow
 from backend.app.agents.research.flow import run_deep_research
 from backend.app.agents.meeting_prep.flow import run_meeting_prep
 from backend.app.middleware.rate_limiter import rate_limit_middleware
 
-app = FastAPI(title="Agent Squad API", version="1.0.0")
+app = FastAPI(title="Agent Squad API", version="1.1.0")
 
 # Rate limiting middleware (applied first)
 app.middleware("http")(rate_limit_middleware)
@@ -30,10 +31,25 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Request models
-# Request models
-from typing import Optional
+# Authentication Dependency
+async def verify_pin_header(x_api_pin: Annotated[Optional[str], Header(alias="X-API-PIN")] = None):
+    """
+    Dependency to verify access. Supports both manual PIN and automatic Recruiter Token.
+    """
+    user_pin = os.getenv("APP_PIN", "0000")
+    recruiter_token = os.getenv("RECRUITER_TOKEN", "portfolio_access")
+    
+    # Allow access if PIN matches either the user PIN or the recruiter token
+    if x_api_pin and (x_api_pin == user_pin or x_api_pin == recruiter_token):
+        return x_api_pin
+        
+    raise HTTPException(
+        status_code=401, 
+        detail="Unauthorized access. Use the official link or enter a valid PIN."
+    )
 
+
+# Request models
 class SalesRequest(BaseModel):
     contact_name: Optional[str] = ""
     company_name: Optional[str] = ""
@@ -56,7 +72,7 @@ class AuthRequest(BaseModel):
     pin: str
 
 # Endpoints
-@app.post("/api/sales/draft")
+@app.post("/api/sales/draft", dependencies=[Depends(verify_pin_header)])
 async def sales_endpoint(req: SalesRequest):
     try:
         result = await run_sales_flow(
@@ -66,14 +82,13 @@ async def sales_endpoint(req: SalesRequest):
             req.product_description,
             req.prospect_email
         )
-        print(f"DEBUG: api endpoint result = {result}")
         return {"status": "success", "draft": result}
     except Exception as e:
         import traceback
         traceback.print_exc()
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.post("/api/sales/send")
+@app.post("/api/sales/send", dependencies=[Depends(verify_pin_header)])
 async def send_endpoint(req: SendRequest):
     try:
         from backend.app.agents.sales.tools import _send_email_raw
@@ -86,7 +101,7 @@ async def send_endpoint(req: SendRequest):
         traceback.print_exc()
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.post("/api/research")
+@app.post("/api/research", dependencies=[Depends(verify_pin_header)])
 async def research_endpoint(req: ResearchRequest):
     try:
         result = await run_deep_research(req.topic)
@@ -96,7 +111,7 @@ async def research_endpoint(req: ResearchRequest):
         traceback.print_exc()
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.post("/api/meeting-prep")
+@app.post("/api/meeting-prep", dependencies=[Depends(verify_pin_header)])
 async def meeting_prep_endpoint(req: MeetingPrepRequest):
     try:
         result = await run_meeting_prep(req.topic)
@@ -108,25 +123,27 @@ async def meeting_prep_endpoint(req: MeetingPrepRequest):
 
 @app.post("/api/auth/verify")
 async def verify_pin(req: AuthRequest):
-    expected_pin = os.getenv("APP_PIN", "0000")
-    if req.pin == expected_pin:
+    user_pin = os.getenv("APP_PIN", "0000")
+    recruiter_token = os.getenv("RECRUITER_TOKEN", "portfolio_access")
+    
+    if req.pin == user_pin or req.pin == recruiter_token:
         return {"status": "success", "message": "Authenticated"}
     else:
         raise HTTPException(status_code=401, detail="Invalid PIN")
 
+
 @app.get("/api/config/auth-enabled")
 async def is_auth_enabled():
-    # Authentication is currently disabled for easier demo access.
-    # To re-enable, uncomment the lines below and set APP_PIN in your environment.
-    # pin = os.getenv("APP_PIN")
-    # return {"enabled": bool(pin)}
-    return {"enabled": False}
+    # Authentication is now strictly enforced on all data endpoints.
+    # We return True to ensure the frontend displays the login page.
+    return {"enabled": True}
 
 @app.get("/")
 async def root():
-    return {"message": "Smart Outreach Manager API", "version": "1.0"}
+    return {"message": "Smart Outreach Manager API", "version": "1.1"}
 
 @app.get("/health")
 async def health_check():
     """Health check endpoint for monitoring."""
-    return {"status": "healthy", "version": "1.0"}
+    return {"status": "healthy", "version": "1.1"}
+

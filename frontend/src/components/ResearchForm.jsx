@@ -2,7 +2,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import ProcessLog from './ProcessLog';
 import { handleApiError } from '../utils/errorHandler';
-import { getApiUrl } from '../utils/api';
+import { getApiUrl, getAuthHeaders } from '../utils/api';
 
 export default function ResearchForm({ onResult }) {
     const [topic, setTopic] = useState('');
@@ -16,8 +16,11 @@ export default function ResearchForm({ onResult }) {
         try {
             const response = await axios.post(getApiUrl('api/research'), {
                 topic: topic
+            }, {
+                headers: getAuthHeaders()
             });
             onResult(response.data);
+
         } catch (error) {
             onResult(handleApiError(error));
         } finally {

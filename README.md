@@ -62,7 +62,8 @@ The **AI Agent Platform** is a production-ready framework for building, orchestr
 - **Streaming console logs** for real-time progress tracking
 
 ### 🔒 Enterprise Security
-- **PIN-based authentication** for demo/portfolio deployments
+- **Recruiter Access Mode**: Frictionless, PIN-free access via special URL parameters
+- **Mandatory API Protection**: All data endpoints secured with `X-API-PIN` header
 - **Multi-tier rate limiting**: 15-minute, hourly, and daily limits
 - **IP-based tracking** with in-memory storage
 - **CORS protection** with configurable origins
@@ -590,6 +591,31 @@ if production_url := os.getenv("FRONTEND_URL"):
 }
 ```
 
+### Recruiter Access (Stealth Mode)
+
+To provide frictionless access to recruiters, you can bypass the manual PIN screen by appending an access token to your URL:
+
+**Format**: `https://your-app.url/?access=portfolio_access`
+
+**How it works**:
+1. The frontend detects the `access` parameter.
+2. It automatically authenticates the session and stores the token.
+3. The URL is instantly cleaned up for a professional appearance.
+4. All subsequent API calls include the token in the `X-API-PIN` header.
+
+---
+
+### Protected Endpoints
+
+All data and action endpoints now require the `X-API-PIN` header.
+
+**Headers**:
+```http
+X-API-PIN: 0000  (or your recruiter token)
+Content-Type: application/json
+```
+
+
 ---
 
 ### Sales Agent
@@ -690,10 +716,11 @@ FastAPI provides automatic interactive documentation:
 
 ### PIN Authentication
 
-- **Purpose**: Protect demo/portfolio deployments from unauthorized access
-- **Configuration**: Set `APP_PIN` in `.env` (default: `0000`)
-- **Bypass**: Remove or leave empty to disable authentication
-- **Frontend**: Login page appears if PIN is configured
+- **Purpose**: Protect demo/portfolio deployments from unauthorized access and API abuse.
+- **Enforcement**: **Mandatory** on all data endpoints via the `X-API-PIN` request header.
+- **Recruiter Mode**: Supports frictionless access via `?access=portfolio_access` URL parameter.
+- **Configuration**: Set `APP_PIN` and `RECRUITER_TOKEN` in `.env`.
+- **Frontend**: Automatically handles PIN entry and URL-based tokens.
 
 ### Rate Limiting
 

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import ProcessLog from './ProcessLog';
 import { handleApiError } from '../utils/errorHandler';
-import { getApiUrl } from '../utils/api';
+import { getApiUrl, getAuthHeaders } from '../utils/api';
 
 const MeetingPrepForm = ({ onResult }) => {
     const [topic, setTopic] = useState('');
@@ -17,9 +17,10 @@ const MeetingPrepForm = ({ onResult }) => {
         try {
             const response = await fetch(getApiUrl('api/meeting-prep'), {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: getAuthHeaders(),
                 body: JSON.stringify({ topic }),
             });
+
 
             const data = await response.json();
             if (data.status === 'success') {

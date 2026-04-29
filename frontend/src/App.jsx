@@ -19,6 +19,16 @@ function App() {
 
   const checkAuth = async () => {
     try {
+      // 1. Check for automatic access via URL (Recruiter Mode)
+      const urlParams = new URLSearchParams(window.location.search);
+      const urlToken = urlParams.get('token') || urlParams.get('access');
+      
+      if (urlToken) {
+        localStorage.setItem('agent_platform_pin', urlToken);
+        // Clear the URL parameter for a cleaner look
+        window.history.replaceState({}, document.title, window.location.pathname);
+      }
+
       const res = await fetch(getApiUrl('api/config/auth-enabled'));
       const data = await res.json();
 
@@ -27,7 +37,7 @@ function App() {
       } else {
         const storedPin = localStorage.getItem('agent_platform_pin');
         if (storedPin) {
-          // Verify stored pin
+          // Verify stored pin or token
           const vRes = await fetch(getApiUrl('api/auth/verify'), {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -42,6 +52,7 @@ function App() {
       setAuthChecking(false);
     }
   };
+
 
   if (authChecking) return <div className="loading-screen">Starting Platform...</div>;
   if (!isAuthenticated) return <LoginPage onSuccess={() => setIsAuthenticated(true)} />;
