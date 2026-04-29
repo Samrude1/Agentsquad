@@ -31,16 +31,27 @@ client = AsyncOpenAI(
     api_key=os.getenv("OPENAI_API_KEY")
 )
 
-# OpenAI-based model for Sales and Research (OpenAI Agents SDK)
+# OpenAI-based models (OpenAI Agents SDK)
 default_model = OpenAIChatCompletionsModel(
-    model="gemini-2.0-flash", 
+    model="gemini-3-flash", 
     openai_client=client
 )
 
-# LiteLLM-based model for Meeting Prep (CrewAI)
+budget_model = OpenAIChatCompletionsModel(
+    model="gemini-1.5-flash",
+    openai_client=client
+)
+
+# LiteLLM-based models for Meeting Prep (CrewAI)
 # Using the same OpenAI-compatible gateway
 crew_llm = LLM(
-    model="openai/gemini-2.0-flash",
+    model="openai/gemini-3-flash",
+    base_url=os.getenv("OPENAI_BASE_URL", "https://generativelanguage.googleapis.com/v1beta/openai/"),
+    api_key=os.getenv("OPENAI_API_KEY")
+)
+
+budget_crew_llm = LLM(
+    model="openai/gemini-1.5-flash",
     base_url=os.getenv("OPENAI_BASE_URL", "https://generativelanguage.googleapis.com/v1beta/openai/"),
     api_key=os.getenv("OPENAI_API_KEY")
 )

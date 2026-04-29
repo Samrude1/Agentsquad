@@ -71,8 +71,10 @@ def convert_to_html(markdown_content: str, topic: str, md_filepath: str) -> str:
         return ""
 
 async def agent_run_with_retry(runner, agent, task, retries=3, delay=5):
-    """Run an agent task with basic retry logic for 429 errors."""
+    """Run an agent task with basic retry logic and model fallback for 429 errors."""
     import asyncio
+    from backend.app.core.config import budget_model
+    
     for i in range(retries):
         try:
             return await runner.run(agent, task)
@@ -81,7 +83,12 @@ async def agent_run_with_retry(runner, agent, task, retries=3, delay=5):
             if "429" in error_msg or "RESOURCE_EXHAUSTED" in error_msg:
                 if i < retries - 1:
                     wait_time = delay * (i + 1)
-                    print(f"--- Rate Limit hit (429). Retrying in {wait_time}s... (Attempt {i+1}/{retries}) ---")
+                    print(f"--- Agent {agent.name} Rate Limit hit (429). Switching to budget model and retrying in {wait_time}s... (Attempt {i+1}/{retries}) ---")
+                    
+                    # Fallback to budget model if possible
+                    if hasattr(agent, 'model'):
+                        agent.model = budget_model
+                        
                     await asyncio.sleep(wait_time)
                     continue
             raise e

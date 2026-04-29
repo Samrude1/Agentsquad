@@ -11,13 +11,16 @@ class MeetingPrepCrew():
     agents_config = 'config/agents.yaml'
     tasks_config = 'config/tasks.yaml'
 
+    def __init__(self, llm=None):
+        self.llm = llm or crew_llm
+
     @agent
     def lead_researcher(self) -> Agent:
         return Agent(
             config=self.agents_config['lead_researcher'],
             verbose=True,
             tools=[TavilySearchTool()],
-            llm=crew_llm
+            llm=self.llm
         )
 
     @agent
@@ -25,7 +28,7 @@ class MeetingPrepCrew():
         return Agent(
             config=self.agents_config['meeting_analyst'],
             verbose=True,
-            llm=crew_llm
+            llm=self.llm
         )
 
     @agent
@@ -33,7 +36,7 @@ class MeetingPrepCrew():
         return Agent(
             config=self.agents_config['briefing_coordinator'],
             verbose=True,
-            llm=crew_llm
+            llm=self.llm
         )
 
     @task

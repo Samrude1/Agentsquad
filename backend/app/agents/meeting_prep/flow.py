@@ -41,19 +41,25 @@ async def run_meeting_prep(topic: str) -> str:
         'last_year': str(current_year - 1),
     }
 
+    from backend.app.core.config import crew_llm, budget_crew_llm
+    
+    current_llm = crew_llm
+    
     try:
         retries = 3
         delay = 5
         for i in range(retries):
             try:
-                crew_instance = MeetingPrepCrew().crew()
+                crew_instance = MeetingPrepCrew(llm=current_llm).crew()
                 result = await crew_instance.kickoff_async(inputs=inputs)
                 break
             except Exception as e:
                 error_msg = str(e)
+                # Check for rate limit or resource exhaustion
                 if ("429" in error_msg or "RESOURCE_EXHAUSTED" in error_msg) and i < retries - 1:
                     wait_time = delay * (i + 1)
-                    print(f"--- CrewAI Rate Limit hit (429). Retrying in {wait_time}s... ---")
+                    print(f"--- CrewAI Rate Limit hit (429). Switching to budget model and retrying in {wait_time}s... ---")
+                    current_llm = budget_crew_llm  # Switch to budget model for retry
                     await asyncio.sleep(wait_time)
                     continue
                 raise e
