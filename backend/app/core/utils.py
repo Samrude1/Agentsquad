@@ -69,3 +69,20 @@ def convert_to_html(markdown_content: str, topic: str, md_filepath: str) -> str:
     except Exception as e:
         print(f"HTML conversion failed: {e}")
         return ""
+
+async def agent_run_with_retry(runner, agent, task, retries=3, delay=5):
+    """Run an agent task with basic retry logic for 429 errors."""
+    import asyncio
+    for i in range(retries):
+        try:
+            return await runner.run(agent, task)
+        except Exception as e:
+            error_msg = str(e)
+            if "429" in error_msg or "RESOURCE_EXHAUSTED" in error_msg:
+                if i < retries - 1:
+                    wait_time = delay * (i + 1)
+                    print(f"--- Rate Limit hit (429). Retrying in {wait_time}s... (Attempt {i+1}/{retries}) ---")
+                    await asyncio.sleep(wait_time)
+                    continue
+            raise e
+

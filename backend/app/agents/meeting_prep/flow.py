@@ -42,8 +42,21 @@ async def run_meeting_prep(topic: str) -> str:
     }
 
     try:
-        crew_instance = MeetingPrepCrew().crew()
-        result = await crew_instance.kickoff_async(inputs=inputs)
+        retries = 3
+        delay = 5
+        for i in range(retries):
+            try:
+                crew_instance = MeetingPrepCrew().crew()
+                result = await crew_instance.kickoff_async(inputs=inputs)
+                break
+            except Exception as e:
+                error_msg = str(e)
+                if ("429" in error_msg or "RESOURCE_EXHAUSTED" in error_msg) and i < retries - 1:
+                    wait_time = delay * (i + 1)
+                    print(f"--- CrewAI Rate Limit hit (429). Retrying in {wait_time}s... ---")
+                    await asyncio.sleep(wait_time)
+                    continue
+                raise e
         
         # With output_pydantic, result.pydantic gives us the structured data
         if hasattr(result, 'pydantic') and result.pydantic:
@@ -54,12 +67,8 @@ async def run_meeting_prep(topic: str) -> str:
             clean_output = str(result)
         
         print("\n=== MEETING PREP COMPLETE ===\n")
-        
-        # Local saving disabled for cloud deployment
-        # if md_file := save_markdown_report(clean_output, topic):
-        #     convert_to_html(clean_output, topic, md_file)
-            
         return clean_output
+
         
     except Exception as e:
         print(f"Error in Meeting Prep Flow: {e}")

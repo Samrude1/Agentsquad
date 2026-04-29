@@ -3,6 +3,7 @@ from agents import Runner
 from backend.app.agents.sales.personas import (
     persona_agents, sales_manager, subject_writer, html_formatter, EmailDraft
 )
+from backend.app.core.utils import agent_run_with_retry
 
 async def run_sales_flow(contact_name: str, company_name: str, sender_name: str, product_description: str, prospect_email: str):
     # Build recipient string for AI
@@ -26,11 +27,18 @@ Recipient: {recipient}
 Sender: {sender_name}
 GREETING: {greeting_hint}"""
 
-    # Step 1: 3 Personas generate drafts in PARALLEL
+    # Step 1: 3 Personas generate drafts in PARALLEL with staggered starts
     print(">> Step 1: 3 Personas generating competing drafts...")
+    
+    async def staggered_draft(agent, q, index):
+        if index > 0:
+            await asyncio.sleep(index * 3)
+        return await agent_run_with_retry(Runner, agent, q)
+
     draft_results = await asyncio.gather(*[
-        Runner.run(agent, query) for agent in persona_agents
+        staggered_draft(agent, query, i) for i, agent in enumerate(persona_agents)
     ])
+
     
     drafts_text = "\n\n---\n\n".join([
         f"DRAFT {i+1} ({agent.name}):\n{result.final_output}"
@@ -39,7 +47,7 @@ GREETING: {greeting_hint}"""
     
     # Step 2: Sales Manager evaluates and picks best
     print(">> Step 2: Sales Manager evaluating drafts...")
-    manager_result = await Runner.run(sales_manager, f"""
+    manager_result = await agent_run_with_retry(Runner, sales_manager, f"""
 Recipient: {recipient}
 Sender: {sender_name}
 
@@ -55,7 +63,7 @@ Pick the BEST draft and return it.""")
     
     # Step 3: Subject Writer creates subject line
     print(">> Step 3: Subject Specialist writing subject line...")
-    subject_result = await Runner.run(subject_writer, f"""
+    subject_result = await agent_run_with_retry(Runner, subject_writer, f"""
 Create a subject line for this email:
 
 {winning_draft}
@@ -67,12 +75,13 @@ Company: {company_name}""")
     
     # Step 4: HTML Formatter converts to professional HTML
     print(">> Step 4: HTML Formatter styling email...")
-    html_result = await Runner.run(html_formatter, f"""
+    html_result = await agent_run_with_retry(Runner, html_formatter, f"""
 Convert this email to clean HTML:
 
 {winning_draft}""")
     
     html_body = html_result.final_output
+
     
     # Clean up any code fences the AI might have added
     html_body = html_body.replace("```html", "").replace("```", "")

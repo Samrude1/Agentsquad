@@ -2,21 +2,30 @@ import asyncio
 from datetime import date
 from agents import Runner
 from backend.app.agents.research.squad import planner_agent, search_agent, writer_agent
-from backend.app.core.utils import save_markdown_report, convert_to_html
+from backend.app.core.utils import save_markdown_report, convert_to_html, agent_run_with_retry
 
 async def run_deep_research(topic: str):
     print(f"\n=== TUTKIMUS: {topic} ===\n")
 
     # Step 1: PLANNER creates search strategy
     print(">> Agent 1: Research Planner creating strategy...")
-    plan = (await Runner.run(planner_agent, f"Topic: {topic}")).final_output
+    plan_result = await agent_run_with_retry(Runner, planner_agent, f"Topic: {topic}")
+    plan = plan_result.final_output
 
-    # Step 2: SEARCH ANALYSTS run in PARALLEL (3 instances of same agent)
+    # Step 2: SEARCH ANALYSTS run in PARALLEL with staggered starts
     print(">> Agent 2: Search Analysts executing parallel searches...")
+    
+    async def staggered_search(query, index):
+        # Stagger starts to avoid hitting 15 RPM limit instantly
+        if index > 0:
+            await asyncio.sleep(index * 3) 
+        return await agent_run_with_retry(Runner, search_agent, f"Search and analyze: {query}")
+
     search_results = await asyncio.gather(*[
-        Runner.run(search_agent, f"Search and analyze: {item.query}")
-        for item in plan.searches
+        staggered_search(item.query, i)
+        for i, item in enumerate(plan.searches)
     ])
+
     
     # Combine all analyst findings
     combined_data = "\n\n---\n\n".join([
@@ -26,10 +35,14 @@ async def run_deep_research(topic: str):
 
     # Step 3: WRITER synthesizes into final report
     print(">> Agent 3: Research Writer synthesizing report...")
-    final_report = (await Runner.run(
+    writer_result = await agent_run_with_retry(
+        Runner,
         writer_agent, 
         f"Topic: {topic}\n\nResearch Data:\n{combined_data}"
-    )).final_output
+    )
+    final_report = writer_result.final_output
+
+
 
     # Add date header
     today = date.today().strftime("%B %d, %Y")
