@@ -2,6 +2,9 @@
 
 > **Professional-grade, multi-agent orchestration platform for autonomous sales intelligence, deep research, and meeting preparation.**
 
+> [!WARNING]
+> **Free Models in Use**: This deployment is temporarily running on free AI models (Google Gemma 4 31B via OpenRouter). You may experience slower response times and temporary API rate limits.
+
 [![Python 3.12+](https://img.shields.io/badge/python-3.12%2B-blue.svg)](https://www.python.org/downloads/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-green.svg)](https://fastapi.tiangolo.com/)
 [![React 19](https://img.shields.io/badge/React-19-blue.svg)](https://react.dev/)

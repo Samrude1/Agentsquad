@@ -52,6 +52,10 @@ const MeetingPrepForm = ({ onResult }) => {
                     </div>
                 </div>
 
+                <div className="warning-banner" style={{ backgroundColor: '#fff3cd', color: '#856404', padding: '12px', borderRadius: '6px', marginBottom: '1.5rem', border: '1px solid #ffeeba', fontSize: '0.9rem' }}>
+                    ⚠️ <strong>Notice:</strong> Currently running on free AI models. You may experience slower response times or temporary API rate limits.
+                </div>
+
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
                         <label htmlFor="topic" className="form-label">Company Name</label>

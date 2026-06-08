@@ -175,6 +175,9 @@ export default function SalesForm({ onResult }) {
         <div className="form-container">
             <h2 className="form-title">Sales Email Generator</h2>
             
+            <div className="warning-banner" style={{ backgroundColor: '#fff3cd', color: '#856404', padding: '12px', borderRadius: '6px', marginBottom: '1.5rem', border: '1px solid #ffeeba', fontSize: '0.9rem' }}>
+                ⚠️ <strong>Notice:</strong> Currently running on free AI models. You may experience slower response times or temporary API rate limits.
+            </div>
 
             <form onSubmit={handleGenerateDraft}>
                 <div className="form-group">
