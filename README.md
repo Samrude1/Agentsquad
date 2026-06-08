@@ -83,7 +83,7 @@ The **AI Agent Platform** is a production-ready framework for building, orchestr
 - **Export functionality** for generated content
 
 ### 🛡️ Rate Limit Resilience
-- **Automatic Model Fallback**: Automatically switches to stable models (Gemini 1.5 Flash) if primary model (Gemini 3 Flash) limits are hit.
+- **Automatic Model Fallback**: Automatically switches to stable models (Gemini 1.5 Flash) if primary model (Gemini 2.0 Flash) limits are hit.
 - **Smart Retries**: Implements staggered retry logic with increasing delays for 429 errors.
 
 ---
@@ -461,7 +461,7 @@ cp .env.example .env
 ```env
 # Gemini API (via OpenAI-compatible endpoint)
 OPENAI_API_KEY=your_gemini_api_key_here
-OPENAI_BASE_URL=https://generativelanguage.googleapis.com/v1beta/openai/
+OPENAI_BASE_URL=https://openrouter.ai/api/v1
 
 # Search API
 TAVILY_API_KEY=your_tavily_api_key_here
@@ -531,7 +531,7 @@ npm run dev
 | Variable           | Required | Default                                                    | Description                      |
 | ------------------ | -------- | ---------------------------------------------------------- | -------------------------------- |
 | `OPENAI_API_KEY`   | ✅ Yes    | -                                                          | Gemini API key                   |
-| `OPENAI_BASE_URL`  | ✅ Yes    | `https://generativelanguage.googleapis.com/v1beta/openai/` | Gemini endpoint                  |
+| `OPENAI_BASE_URL`  | ✅ Yes    | `https://openrouter.ai/api/v1` | OpenRouter endpoint              |
 | `TAVILY_API_KEY`   | ✅ Yes    | -                                                          | Tavily search API key            |
 | `SENDGRID_API_KEY` | ❌ No     | -                                                          | SendGrid email API key           |
 | `APP_PIN`          | ❌ No     | `0000`                                                     | PIN for authentication           |
@@ -807,7 +807,7 @@ Rate limits protect free-tier API quotas:
 2. **Environment Variables**:
    ```
    OPENAI_API_KEY=your_gemini_key
-   OPENAI_BASE_URL=https://generativelanguage.googleapis.com/v1beta/openai/
+   OPENAI_BASE_URL=https://openrouter.ai/api/v1
    TAVILY_API_KEY=your_tavily_key
    APP_PIN=your_secure_pin
    FRONTEND_URL=https://your-frontend.vercel.app

@@ -27,33 +27,33 @@ setup_environment()
 
 # 2. Shared Client & Model
 client = AsyncOpenAI(
-    base_url=os.getenv("OPENAI_BASE_URL", "https://generativelanguage.googleapis.com/v1beta/openai/"),
-    api_key=os.getenv("OPENAI_API_KEY")
+    base_url=os.getenv("OPENAI_BASE_URL", "https://openrouter.ai/api/v1"),
+    api_key=os.getenv("OPENROUTER_API_KEY") or os.getenv("OPENAI_API_KEY")
 )
 
 # OpenAI-based models (OpenAI Agents SDK)
-# gemini-2.5-flash: GA stable production model (released June 2025)
+# Using OpenRouter free model temporarily
 default_model = OpenAIChatCompletionsModel(
-    model="gemini-2.5-flash", 
+    model="google/gemma-4-31b-it:free", 
     openai_client=client
 )
 
-# Fallback: gemini-1.5-flash is reliable and widely supported
+# Fallback: using the same free model
 budget_model = OpenAIChatCompletionsModel(
-    model="gemini-1.5-flash",
+    model="google/gemma-4-31b-it:free",
     openai_client=client
 )
 
 # LiteLLM-based models for Meeting Prep (CrewAI)
 # Using the same OpenAI-compatible gateway
 crew_llm = LLM(
-    model="openai/gemini-2.5-flash",
-    base_url=os.getenv("OPENAI_BASE_URL", "https://generativelanguage.googleapis.com/v1beta/openai/"),
-    api_key=os.getenv("OPENAI_API_KEY")
+    model="openai/google/gemma-4-31b-it:free",
+    base_url=os.getenv("OPENAI_BASE_URL", "https://openrouter.ai/api/v1"),
+    api_key=os.getenv("OPENROUTER_API_KEY") or os.getenv("OPENAI_API_KEY")
 )
 
 budget_crew_llm = LLM(
-    model="openai/gemini-1.5-flash",
-    base_url=os.getenv("OPENAI_BASE_URL", "https://generativelanguage.googleapis.com/v1beta/openai/"),
-    api_key=os.getenv("OPENAI_API_KEY")
+    model="openai/google/gemma-4-31b-it:free",
+    base_url=os.getenv("OPENAI_BASE_URL", "https://openrouter.ai/api/v1"),
+    api_key=os.getenv("OPENROUTER_API_KEY") or os.getenv("OPENAI_API_KEY")
 )
