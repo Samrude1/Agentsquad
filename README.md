@@ -113,7 +113,7 @@ graph LR
     end
 
     subgraph External ["External Services"]
-        LLM["Gemini 2.5 Flash"]
+        LLM["Google Gemma 4 31B (OpenRouter)"]
         Search["Search APIs"]
         Email["SendGrid"]
     end
@@ -259,7 +259,7 @@ graph LR
 
 **Technical Details**:
 - **File**: `backend/app/agents/sales/flow.py`
-- **Model**: Gemini 2.5 Flash
+- **Model**: Google Gemma 4 31B (via OpenRouter)
 - **Average execution**: 30-45 seconds
 - **Output**: HTML email + plain text version
 
@@ -299,7 +299,7 @@ graph TB
 **Technical Details**:
 - **File**: `backend/app/agents/research/flow.py`
 - **Search API**: Tavily AI (primary)
-- **Model**: Gemini 2.5 Flash
+- **Model**: Google Gemma 4 31B (via OpenRouter)
 - **Average execution**: 20-30 seconds
 - **Output**: Markdown report + styled HTML
 
@@ -353,7 +353,7 @@ graph LR
 **Technical Details**:
 - **File**: `backend/app/agents/meeting_prep/flow.py`
 - **Search**: DuckDuckGo (via langchain-community)
-- **Model**: Gemini 2.5 Flash (via google-genai)
+- **Model**: Google Gemma 4 31B (via OpenRouter)
 - **CrewAI Version**: 1.8.1
 - **Average execution**: 25-35 seconds
 - **Output**: Structured briefing document
@@ -391,7 +391,7 @@ graph LR
 
 ### LLM & APIs
 
-- **Primary LLM**: Google Gemini 2.5 Flash (via OpenAI-compatible API)
+- **Primary LLM**: Google Gemma 4 31B (via OpenRouter API)
 - **Search**: Tavily AI (research), DuckDuckGo (meeting prep)
 - **Email**: SendGrid (optional)
 
@@ -417,7 +417,7 @@ graph LR
 - Git
 
 **API Keys** (at least one required):
-- **Gemini API Key** (required) - [Get it here](https://aistudio.google.com/app/apikey)
+- **OpenRouter API Key** (required) - [Get it here](https://openrouter.ai/keys)
 - **Tavily API Key** (required for research) - [Get it here](https://tavily.com/)
 - **SendGrid API Key** (optional, for email sending) - [Get it here](https://sendgrid.com/)
 
@@ -459,8 +459,8 @@ cp .env.example .env
 
 **Example `.env`**:
 ```env
-# Gemini API (via OpenAI-compatible endpoint)
-OPENAI_API_KEY=your_gemini_api_key_here
+# OpenRouter API
+OPENAI_API_KEY=your_openrouter_api_key_here
 OPENAI_BASE_URL=https://openrouter.ai/api/v1
 
 # Search API
@@ -530,7 +530,7 @@ npm run dev
 
 | Variable           | Required | Default                                                    | Description                      |
 | ------------------ | -------- | ---------------------------------------------------------- | -------------------------------- |
-| `OPENAI_API_KEY`   | ✅ Yes    | -                                                          | Gemini API key                   |
+| `OPENAI_API_KEY`   | ✅ Yes    | -                                                          | OpenRouter API key               |
 | `OPENAI_BASE_URL`  | ✅ Yes    | `https://openrouter.ai/api/v1` | OpenRouter endpoint              |
 | `TAVILY_API_KEY`   | ✅ Yes    | -                                                          | Tavily search API key            |
 | `SENDGRID_API_KEY` | ❌ No     | -                                                          | SendGrid email API key           |
@@ -806,7 +806,7 @@ Rate limits protect free-tier API quotas:
 
 2. **Environment Variables**:
    ```
-   OPENAI_API_KEY=your_gemini_key
+   OPENAI_API_KEY=your_openrouter_key
    OPENAI_BASE_URL=https://openrouter.ai/api/v1
    TAVILY_API_KEY=your_tavily_key
    APP_PIN=your_secure_pin
