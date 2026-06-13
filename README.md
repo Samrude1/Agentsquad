@@ -83,7 +83,7 @@ The **AI Agent Platform** is a production-ready framework for building, orchestr
 - **Export functionality** for generated content
 
 ### 🛡️ Rate Limit Resilience
-- **Automatic Model Fallback**: Automatically switches to stable models (Gemini 1.5 Flash) if primary model (Gemini 2.0 Flash) limits are hit.
+- **Automatic Model Fallback**: Automatically switches to stable models (Llama 3.3 70B) if primary model (Claude 3.5 Sonnet) limits are hit.
 - **Smart Retries**: Implements staggered retry logic with increasing delays for 429 errors.
 
 ---
@@ -453,7 +453,7 @@ pip install -r backend/requirements.txt
 cp .env.example .env
 
 # Edit .env with your API keys
-# Required: OPENAI_API_KEY (Gemini), TAVILY_API_KEY
+# Required: OPENAI_API_KEY (OpenRouter), TAVILY_API_KEY
 # Optional: SENDGRID_API_KEY, APP_PIN
 ```
 
@@ -766,7 +766,7 @@ Every response includes:
 
 Rate limits protect free-tier API quotas:
 
-- **Gemini Free Tier**: 15 req/min, 1500 req/day
+- **OpenRouter Rate Limits**: Dependent on specific model provider limits
 - **Tavily Free Tier**: 1000 searches/month
 - **25 agent requests/day** ≈ 75 API calls (well within limits)
 
