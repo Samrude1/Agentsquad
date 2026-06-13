@@ -2,9 +2,6 @@
 
 > **Professional-grade, multi-agent orchestration platform for autonomous sales intelligence, deep research, and meeting preparation.**
 
-> [!WARNING]
-> **Free Models in Use**: This deployment is temporarily running on free AI models (Google Gemma 4 31B via OpenRouter). You may experience slower response times and temporary API rate limits.
-
 [![Python 3.12+](https://img.shields.io/badge/python-3.12%2B-blue.svg)](https://www.python.org/downloads/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-green.svg)](https://fastapi.tiangolo.com/)
 [![React 19](https://img.shields.io/badge/React-19-blue.svg)](https://react.dev/)
@@ -116,7 +113,7 @@ graph LR
     end
 
     subgraph External ["External Services"]
-        LLM["Google Gemma 4 31B (OpenRouter)"]
+        LLM["Claude 3.5 Sonnet / GPT-4o"]
         Search["Search APIs"]
         Email["SendGrid"]
     end
@@ -262,7 +259,7 @@ graph LR
 
 **Technical Details**:
 - **File**: `backend/app/agents/sales/flow.py`
-- **Model**: Google Gemma 4 31B (via OpenRouter)
+- **Model**: Claude 3.5 Sonnet (via OpenRouter)
 - **Average execution**: 30-45 seconds
 - **Output**: HTML email + plain text version
 
@@ -302,7 +299,7 @@ graph TB
 **Technical Details**:
 - **File**: `backend/app/agents/research/flow.py`
 - **Search API**: Tavily AI (primary)
-- **Model**: Google Gemma 4 31B (via OpenRouter)
+- **Model**: Claude 3.5 Sonnet (via OpenRouter)
 - **Average execution**: 20-30 seconds
 - **Output**: Markdown report + styled HTML
 
@@ -356,7 +353,7 @@ graph LR
 **Technical Details**:
 - **File**: `backend/app/agents/meeting_prep/flow.py`
 - **Search**: DuckDuckGo (via langchain-community)
-- **Model**: Google Gemma 4 31B (via OpenRouter)
+- **Model**: GPT-4o (via OpenRouter)
 - **CrewAI Version**: 1.8.1
 - **Average execution**: 25-35 seconds
 - **Output**: Structured briefing document
@@ -394,7 +391,7 @@ graph LR
 
 ### LLM & APIs
 
-- **Primary LLM**: Google Gemma 4 31B (via OpenRouter API)
+- **Primary LLMs**: Claude 3.5 Sonnet & GPT-4o (via OpenRouter API)
 - **Search**: Tavily AI (research), DuckDuckGo (meeting prep)
 - **Email**: SendGrid (optional)
 

@@ -32,28 +32,26 @@ client = AsyncOpenAI(
 )
 
 # OpenAI-based models (OpenAI Agents SDK)
-# Using OpenRouter free model temporarily
 default_model = OpenAIChatCompletionsModel(
-    model="google/gemma-4-31b-it:free", 
+    model="anthropic/claude-3.5-sonnet", 
     openai_client=client
 )
 
-# Fallback: using the same free model
+# Fallback model
 budget_model = OpenAIChatCompletionsModel(
-    model="google/gemma-4-31b-it:free",
+    model="meta-llama/llama-3.3-70b-instruct",
     openai_client=client
 )
 
-# LiteLLM-based models for Meeting Prep (CrewAI)
-# Using the same OpenAI-compatible gateway
+# Litellm / CrewAI wrapper models
+# Note: LiteLLM requires the "openai/" prefix when using custom base_url to pass the exact model string to OpenRouter
 crew_llm = LLM(
-    model="openai/google/gemma-4-31b-it:free",
+    model="openai/openai/gpt-4o",
     base_url=os.getenv("OPENAI_BASE_URL", "https://openrouter.ai/api/v1"),
     api_key=os.getenv("OPENROUTER_API_KEY") or os.getenv("OPENAI_API_KEY")
 )
 
 budget_crew_llm = LLM(
-    model="openai/google/gemma-4-31b-it:free",
     base_url=os.getenv("OPENAI_BASE_URL", "https://openrouter.ai/api/v1"),
     api_key=os.getenv("OPENROUTER_API_KEY") or os.getenv("OPENAI_API_KEY")
 )
