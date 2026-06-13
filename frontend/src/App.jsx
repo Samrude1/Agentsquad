@@ -63,7 +63,7 @@ function App() {
         <h1 className="app-title">Agent Squad</h1>
         
         <div className="info-note" style={{ maxWidth: '40rem', margin: '0 auto 2rem' }}>
-            ℹ️ Pro-tip: Emails are sent via <strong>Resend</strong> from <strong>info@samirautanen.fi</strong>
+            ℹ️ Pro-tip: Emails are sent via <strong>SendGrid</strong> from <strong>info@samirautanen.fi</strong>
         </div>
 
         <div className="tab-navigation">

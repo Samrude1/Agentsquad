@@ -1,6 +1,6 @@
 openai
 python-dotenv
-resend
+sendgrid
 tavily-python
 markdown
 pydantic
