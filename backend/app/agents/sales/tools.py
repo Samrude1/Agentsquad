@@ -1,36 +1,33 @@
 import os
-from sendgrid import SendGridAPIClient
-from sendgrid.helpers.mail import Mail
+import resend
+# from sendgrid.helpers.mail import Mail, Email, To, Content
 from typing import Dict
 from agents import function_tool
 
 def _send_email_raw(to_email: str, subject: str, html_body: str) -> Dict[str, str]:
     """Raw email sending function (for direct API calls)."""
     try:
-        api_key = os.environ.get('SENDGRID_API_KEY')
-        if not api_key:
-            return {"status": "error", "message": "SENDGRID_API_KEY is not set."}
-            
-        from_email = os.environ.get('SENDER_EMAIL', "info@samirautanen.fi")
+        resend.api_key = os.environ.get('RESEND_API_KEY')
         
-        message = Mail(
-            from_email=from_email,
-            to_emails=to_email,
-            subject=subject,
-            html_content=html_body
-        )
+        # Power User: User can set their verified sender email in HF Secrets
+        # Fallback to onboarding only for initial testing
+        from_email = os.environ.get('SENDER_EMAIL', "Agent Squad <onboarding@resend.dev>")
         
-        sg = SendGridAPIClient(api_key)
-        response = sg.send(message)
+        response = resend.Emails.send({
+            "from": from_email,
+            "to": [to_email],
+            "subject": subject,
+            "html": html_body
+        })
         
-        print(f"SendGrid success: {response.status_code}")
+        print(f"Resend success: {response}")
         return {"status": "success"}
     except Exception as e:
         error_msg = str(e)
         if "401" in error_msg:
-            error_msg = "SendGrid API Error: Check your API key."
+            error_msg = "Resend API Error: Check your API key."
         
-        print(f"SendGrid error: {error_msg}")
+        print(f"Resend error: {error_msg}")
         return {"status": "error", "message": error_msg}
 
 @function_tool
