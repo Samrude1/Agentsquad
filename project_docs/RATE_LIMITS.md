@@ -22,11 +22,11 @@ Nämä rajat on optimoitu niin, että käyttäjä voi testata kaikki ominaisuude
 
 🛡️ **Turvallisuus:**
 - Estää API-avaimen väärinkäytön
-- Suojaa Gemini/Tavily ilmaiskiintiöt
+- Suojaa OpenRouter/Tavily API-kuluja
 - Botin hyökkäys ei kaada palvelua
 
 💰 **Kustannustehokas:**
-- Gemini free tier: 15 req/min, 1500 req/päivä
+- OpenRouter kuluja hallitaan 5€ katolla (rate limitit hidastavat sen saavuttamista)
 - Tavily free tier: 1000 hakua/kk
 - 25 agenttikutsua/päivä = ~75 API-kutsua (hyvin kiintiöiden sisällä)
 

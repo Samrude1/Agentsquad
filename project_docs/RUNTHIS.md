@@ -32,7 +32,7 @@ Mene selaimella osoitteeseen **[http://localhost:5173](http://localhost:5173)**.
 
 ### 💡 Muistilista jos jokin mättää:
 - **Python:** Käytä AINA virtuaaliympäristöä (`.venv`). Projekti vaatii Python 3.12 tai 3.13 (ei toimi 3.14 versiolla).
-- **API-avaimet:** Varmista että juurikansiossa on `.env` tiedosto ja siellä on voimassa oleva `OPENAI_API_KEY` (Gemini API avain käy).
+- **API-avaimet:** Varmista että juurikansiossa on `.env` tiedosto ja siellä on voimassa oleva `OPENAI_API_KEY` (OpenRouter API avain).
 - **Portit:** Jos saat "Port in use" virheen, jokin vanha prosessi on jäänyt päälle. Sulje terminaalit ja yritä uudestaan.
 
 ### 🛡️ Rate Limiting (Portfoliodeploymenttia varten)
