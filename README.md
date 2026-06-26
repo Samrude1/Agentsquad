@@ -61,13 +61,13 @@ The **AI Agent Platform** is a production-ready framework for building, orchestr
 - **Agent handoff patterns** with structured data passing
 - **Streaming console logs** for real-time progress tracking
 
-### 🔒 Enterprise Security
-- **Recruiter Access Mode**: Frictionless, PIN-free access via special URL parameters
-- **Mandatory API Protection**: All data endpoints secured with `X-API-PIN` header
-- **Multi-tier rate limiting**: 15-minute, hourly, and daily limits
-- **IP-based tracking** with in-memory storage
-- **CORS protection** with configurable origins
-- **Rate limit headers** for transparency
+### 🔒 Enterprise Security & Cost Control
+- **Public Portfolio Mode**: Live demo is fully open and frictionless (API costs hard-capped at 5€ via OpenRouter).
+- **Built-in Authentication**: Complete PIN and Recruiter token access system available in the codebase.
+- **Multi-tier rate limiting**: 15-minute, hourly, and daily limits to prevent abuse.
+- **IP-based tracking** with in-memory storage.
+- **CORS protection** with configurable origins.
+- **Rate limit headers** for transparency.
 
 ### 🎨 Professional UI/UX
 - **Tab-based navigation** for seamless agent switching
@@ -595,15 +595,18 @@ if production_url := os.getenv("FRONTEND_URL"):
 }
 ```
 
-### Recruiter Access (Stealth Mode)
+### Built-in Authentication & Recruiter Access
 
-To provide frictionless access to recruiters, you can bypass the manual PIN screen by appending an access token to your URL:
+*Note: The live portfolio deployment at [samirautanen.fi](https://samirautanen.fi) currently has authentication disabled for frictionless public testing (API costs are hard-capped via OpenRouter). However, the codebase includes a full authentication system for production use.*
+
+**Recruiter Access (Stealth Mode)**
+When authentication is enabled, you can provide frictionless access to recruiters by bypassing the manual PIN screen. This is done by appending an access token to the URL:
 
 **Format**: `https://your-app.url/?access=portfolio_access`
 
 **How it works**:
 1. The frontend detects the `access` parameter.
-2. It automatically authenticates the session and stores the token.
+2. It automatically authenticates the session and stores the token locally.
 3. The URL is instantly cleaned up for a professional appearance.
 4. All subsequent API calls include the token in the `X-API-PIN` header.
 
@@ -716,15 +719,16 @@ FastAPI provides automatic interactive documentation:
 
 ---
 
-## 🛡️ Security & Rate Limiting
+## 🛡️ Security, Rate Limiting & Cost Control
 
-### PIN Authentication
+### PIN Authentication (Configurable)
 
-- **Purpose**: Protect demo/portfolio deployments from unauthorized access and API abuse.
-- **Enforcement**: **Mandatory** on all data endpoints via the `X-API-PIN` request header.
-- **Recruiter Mode**: Supports frictionless access via `?access=portfolio_access` URL parameter.
+- **Status in Live Demo**: **Disabled** for frictionless testing. Budget is managed via OpenRouter's hard spending caps (5€ limit).
+- **Purpose**: When enabled, protects deployments from unauthorized access and API abuse.
+- **Enforcement**: Secures data endpoints via the `X-API-PIN` request header.
+- **Recruiter Mode**: Supports seamless, hidden access via `?access=portfolio_access` URL parameter.
 - **Configuration**: Set `APP_PIN` and `RECRUITER_TOKEN` in `.env`.
-- **Frontend**: Automatically handles PIN entry and URL-based tokens.
+- **Frontend**: Automatically handles PIN entry and URL-based tokens when activated.
 
 ### Rate Limiting
 
