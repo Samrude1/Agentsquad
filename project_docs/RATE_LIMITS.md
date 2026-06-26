@@ -26,7 +26,7 @@ Nämä rajat on optimoitu niin, että käyttäjä voi testata kaikki ominaisuude
 - Botin hyökkäys ei kaada palvelua
 
 💰 **Kustannustehokas:**
-- OpenRouter kuluja hallitaan 5€ katolla (rate limitit hidastavat sen saavuttamista)
+- OpenRouter kuluja hallitaan budjettikatoilla (rate limitit hidastavat niiden saavuttamista)
 - Tavily free tier: 1000 hakua/kk
 - 25 agenttikutsua/päivä = ~75 API-kutsua (hyvin kiintiöiden sisällä)
 

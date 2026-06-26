@@ -723,7 +723,7 @@ FastAPI provides automatic interactive documentation:
 
 ### PIN Authentication (Configurable)
 
-- **Status in Live Demo**: **Disabled** for frictionless testing. Budget is managed via OpenRouter's hard spending caps (5€ limit).
+- **Status in Live Demo**: **Disabled** for frictionless testing. Budget is managed via OpenRouter's hard spending caps.
 - **Purpose**: When enabled, protects deployments from unauthorized access and API abuse.
 - **Enforcement**: Secures data endpoints via the `X-API-PIN` request header.
 - **Recruiter Mode**: Supports seamless, hidden access via `?access=portfolio_access` URL parameter.
