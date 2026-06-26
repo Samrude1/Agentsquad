@@ -62,7 +62,7 @@ The **AI Agent Platform** is a production-ready framework for building, orchestr
 - **Streaming console logs** for real-time progress tracking
 
 ### 🔒 Enterprise Security & Cost Control
-- **Public Portfolio Mode**: Live demo is fully open and frictionless (API costs hard-capped at 5€ via OpenRouter).
+- **Public Portfolio Mode**: Live demo is fully open.
 - **Built-in Authentication**: Complete PIN and Recruiter token access system available in the codebase.
 - **Multi-tier rate limiting**: 15-minute, hourly, and daily limits to prevent abuse.
 - **IP-based tracking** with in-memory storage.
@@ -528,14 +528,14 @@ npm run dev
 
 ### Environment Variables
 
-| Variable           | Required | Default                                                    | Description                      |
-| ------------------ | -------- | ---------------------------------------------------------- | -------------------------------- |
-| `OPENAI_API_KEY`   | ✅ Yes    | -                                                          | OpenRouter API key               |
+| Variable           | Required | Default                        | Description                      |
+| ------------------ | -------- | ------------------------------ | -------------------------------- |
+| `OPENAI_API_KEY`   | ✅ Yes    | -                              | OpenRouter API key               |
 | `OPENAI_BASE_URL`  | ✅ Yes    | `https://openrouter.ai/api/v1` | OpenRouter endpoint              |
-| `TAVILY_API_KEY`   | ✅ Yes    | -                                                          | Tavily search API key            |
-| `SENDGRID_API_KEY` | ❌ No     | -                                                          | SendGrid email API key           |
-| `APP_PIN`          | ❌ No     | `0000`                                                     | PIN for authentication           |
-| `FRONTEND_URL`     | ❌ No     | -                                                          | Production frontend URL for CORS |
+| `TAVILY_API_KEY`   | ✅ Yes    | -                              | Tavily search API key            |
+| `SENDGRID_API_KEY` | ❌ No     | -                              | SendGrid email API key           |
+| `APP_PIN`          | ❌ No     | `0000`                         | PIN for authentication           |
+| `FRONTEND_URL`     | ❌ No     | -                              | Production frontend URL for CORS |
 
 ### Rate Limiting Configuration
 
