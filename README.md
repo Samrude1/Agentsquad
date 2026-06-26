@@ -520,7 +520,7 @@ npm run dev
 5. **Watch progress**: Real-time logs appear in console
 6. **View results**: Markdown-rendered output with download option
 
-> **💡 Quick Start Tip**: See [`RUNTHIS.md`](RUNTHIS.md) for a condensed startup guide.
+> **💡 Quick Start Tip**: See [`RUNTHIS.md`](docs/RUNTHIS.md) for a condensed startup guide.
 
 ---
 
@@ -555,7 +555,7 @@ self.limits = {
 }
 ```
 
-See [`RATE_LIMITS.md`](RATE_LIMITS.md) for detailed documentation.
+See [`RATE_LIMITS.md`](docs/RATE_LIMITS.md) for detailed documentation.
 
 ### CORS Configuration
 
