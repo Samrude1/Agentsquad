@@ -33,7 +33,7 @@ client = AsyncOpenAI(
 
 # OpenAI-based models (OpenAI Agents SDK)
 default_model = OpenAIChatCompletionsModel(
-    model="anthropic/claude-3.5-sonnet", 
+    model="openai/gpt-4o", 
     openai_client=client
 )
 
