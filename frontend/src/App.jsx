@@ -14,7 +14,7 @@ function App() {
       <div className="content-wrapper">
         <h1 className="app-title">Agent Squad</h1>
         
-        <div className="info-note" style={{ maxWidth: '40rem', margin: '0 auto 2rem' }}>
+        <div className="info-note">
             ℹ️ Pro-tip: Emails are sent via <strong>Resend</strong> from <strong>info@samirautanen.fi</strong>
         </div>
 

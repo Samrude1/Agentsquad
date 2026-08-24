@@ -1,6 +1,5 @@
 import os
 import resend  # type: ignore[import-untyped]
-# from sendgrid.helpers.mail import Mail, Email, To, Content
 from typing import Dict
 from agents import function_tool  # type: ignore[import-untyped]
 

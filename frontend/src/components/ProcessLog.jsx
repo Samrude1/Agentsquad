@@ -61,34 +61,34 @@ const MEETING_PREP_LOGS = [
     "Briefing ready."
 ];
 
+const LOG_MAP = {
+    sales: SALES_LOGS,
+    research: RESEARCH_LOGS,
+    'meeting-prep': MEETING_PREP_LOGS,
+};
+
 export default function ProcessLog({ agentType = 'sales' }) {
     const [logs, setLogs] = useState([]);
     const [isBuilding, setIsBuilding] = useState(false);
 
-    const getLogsForType = (type) => {
-        switch (type) {
-            case 'sales': return SALES_LOGS;
-            case 'research': return RESEARCH_LOGS;
-            case 'meeting-prep': return MEETING_PREP_LOGS;
-            default: return SALES_LOGS;
-        }
-    };
-
-    const fullLogs = getLogsForType(agentType);
-
     useEffect(() => {
+        setLogs([]);
+        setIsBuilding(false);
+
+        const currentLogs = LOG_MAP[agentType] || SALES_LOGS;
+        const showSpinnerAfter = 5;
         let currentIndex = 0;
-        const showSpinnerAfter = 5; // Show spinner after this many logs
 
         const interval = setInterval(() => {
-            if (currentIndex < fullLogs.length && currentIndex < showSpinnerAfter) {
-                setLogs(prev => [...prev, fullLogs[currentIndex]]);
+            if (currentIndex < currentLogs.length && currentIndex < showSpinnerAfter) {
+                const logItem = currentLogs[currentIndex];
+                setLogs(prev => [...prev, logItem]);
                 currentIndex++;
-            } else if (!isBuilding) {
-                // Switch to building indicator after a few logs
+            } else {
                 setIsBuilding(true);
+                clearInterval(interval);
             }
-        }, 600); // Faster log display
+        }, 600);
 
         return () => clearInterval(interval);
     }, [agentType]);

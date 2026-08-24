@@ -76,8 +76,7 @@ async def sales_endpoint(req: SalesRequest):
         )
         return {"status": "success", "draft": result}
     except Exception as e:
-        import traceback
-        traceback.print_exc()
+        logger.exception("Error in sales draft endpoint")
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/api/sales/send")
@@ -91,8 +90,7 @@ async def send_endpoint(req: SendRequest):
     except HTTPException:
         raise
     except Exception as e:
-        import traceback
-        traceback.print_exc()
+        logger.exception("Error in sales send endpoint")
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/api/research")
@@ -101,8 +99,7 @@ async def research_endpoint(req: ResearchRequest):
         result = await run_deep_research(req.topic)
         return {"status": "success", "result": result}
     except Exception as e:
-        import traceback
-        traceback.print_exc()
+        logger.exception("Error in research endpoint")
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/api/meeting-prep")
@@ -111,8 +108,7 @@ async def meeting_prep_endpoint(req: MeetingPrepRequest):
         result = await run_meeting_prep(req.topic)
         return {"status": "success", "result": result}
     except Exception as e:
-        import traceback
-        traceback.print_exc()
+        logger.exception("Error in meeting prep endpoint")
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/api/config/auth-enabled")

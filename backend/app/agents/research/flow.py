@@ -2,7 +2,7 @@ import asyncio
 from datetime import date
 from agents import Runner  # type: ignore[import-untyped]
 from backend.app.agents.research.squad import planner_agent, search_agent, writer_agent
-from backend.app.core.utils import save_markdown_report, convert_to_html, agent_run_with_retry
+from backend.app.core.utils import agent_run_with_retry
 
 async def run_deep_research(topic: str):
     print(f"\n=== TUTKIMUS: {topic} ===\n")
@@ -25,7 +25,6 @@ async def run_deep_research(topic: str):
         staggered_search(item.query, i)
         for i, item in enumerate(plan.searches)
     ])
-
     
     # Combine all analyst findings
     combined_data = "\n\n---\n\n".join([
@@ -42,18 +41,11 @@ async def run_deep_research(topic: str):
     )
     final_report = writer_result.final_output
 
-
-
     # Add date header
     today = date.today().strftime("%B %d, %Y")
     final_report = f"# Research Report: {topic}\n*Report generated: {today}*\n\n{final_report}"
 
     print("\n=== VALMIS ===\n")
-    
-    # Local saving disabled for cloud deployment
-    # if md_file := save_markdown_report(final_report, topic):
-    #     convert_to_html(final_report, topic, md_file)
-
     return final_report
 
 if __name__ == "__main__":

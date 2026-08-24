@@ -4,7 +4,6 @@ import DOMPurify from 'dompurify';
 import ProcessLog from './ProcessLog';
 import { handleApiError } from '../utils/errorHandler';
 import { getApiUrl, getAuthHeaders } from '../utils/api';
-// Removed react-markdown import as we are previewing HTML directly
 
 export default function SalesForm({ onResult }) {
     const [contactName, setContactName] = useState('');
@@ -28,10 +27,9 @@ export default function SalesForm({ onResult }) {
         }
 
         setLoading(true);
-        onResult(null); // Clear previous final results
+        onResult(null);
 
         try {
-            // Note: Updated endpoint to /api/sales/draft
             const response = await axios.post(getApiUrl('api/sales/draft'), {
                 contact_name: contactName || "",
                 company_name: companyName || "",
@@ -42,14 +40,12 @@ export default function SalesForm({ onResult }) {
                 headers: getAuthHeaders()
             });
 
-            // The backend returns { status: "success", draft: { status: "draft_created", html_body: "...", ... } }
             if (response.data.draft) {
                 setCurrentDraft(response.data.draft);
                 setDraftMode(true);
             } else {
                 onResult({ status: 'error', result: "Failed to generate draft." });
             }
-
         } catch (error) {
             onResult(handleApiError(error));
         } finally {
@@ -68,12 +64,10 @@ export default function SalesForm({ onResult }) {
                 headers: getAuthHeaders()
             });
 
-
             // Success! Reset UI
             setDraftMode(false);
             setCurrentDraft(null);
             onResult({ status: 'success', result: "Email sent successfully!" });
-
         } catch (error) {
             onResult(handleApiError(error));
         } finally {
@@ -87,7 +81,6 @@ export default function SalesForm({ onResult }) {
     };
 
     // --- RENDER ---
-
     if (loading) {
         return (
             <div className="form-container">
@@ -99,17 +92,11 @@ export default function SalesForm({ onResult }) {
 
     if (draftMode && currentDraft) {
         return (
-            <div className="form-container" style={{ maxWidth: '800px' }}>
+            <div className="form-container form-container-wide">
                 <h2 className="form-title">Review Email Draft</h2>
 
-                <div className="draft-preview" style={{
-                    border: '1px solid #e5e7eb',
-                    padding: '2rem',
-                    marginBottom: '1.5rem',
-                    background: 'white',
-                    borderRadius: '8px'
-                }}>
-                    <div style={{ marginBottom: '1rem', borderBottom: '1px solid #eee', paddingBottom: '1rem' }}>
+                <div className="draft-preview">
+                    <div className="draft-meta">
                         <p><strong>From:</strong> Agent Squad &lt;info@samirautanen.fi&gt;</p>
                         <p><strong>To:</strong> {currentDraft.to_email}</p>
                         <p><strong>Subject:</strong> {currentDraft.subject}</p>
@@ -118,53 +105,41 @@ export default function SalesForm({ onResult }) {
                     <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(currentDraft.html_body) }} />
                 </div>
 
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
+                <div className="draft-actions">
                     <button
                         onClick={handleSendEmail}
-                        className="submit-button sales"
-                        style={{ backgroundColor: '#16a34a', flex: '1', minWidth: '150px' }} 
+                        className="submit-button sales draft-btn draft-btn-send"
                     >
                         🚀 Approve & Send
                     </button>
-                    
+
                     <button
                         onClick={() => {
-                            const text = currentDraft.html_body.replace(/<[^>]*>?/gm, ''); // Simple strip HTML
+                            const text = currentDraft.html_body.replace(/<[^>]*>?/gm, '');
                             navigator.clipboard.writeText(text);
                             alert("Text content copied to clipboard!");
                         }}
-                        className="submit-button"
-                        style={{ backgroundColor: '#4b5563', flex: '1', minWidth: '150px' }}
+                        className="submit-button draft-btn draft-btn-copy"
                     >
                         📋 Copy Text
                     </button>
 
                     <a
                         href={`mailto:${currentDraft.to_email}?subject=${encodeURIComponent(currentDraft.subject)}&body=${encodeURIComponent(currentDraft.html_body.replace(/<[^>]*>?/gm, ''))}`}
-                        className="submit-button"
-                        style={{ 
-                            backgroundColor: '#2563eb', 
-                            flex: '1', 
-                            minWidth: '150px', 
-                            textDecoration: 'none', 
-                            display: 'flex', 
-                            alignItems: 'center', 
-                            justifyContent: 'center' 
-                        }}
+                        className="submit-button draft-btn draft-btn-mail"
                     >
                         ✉️ Open in Mail App
                     </a>
 
                     <button
                         onClick={handleDiscard}
-                        className="submit-button"
-                        style={{ backgroundColor: '#dc2626', flex: '1', minWidth: '150px' }}
+                        className="submit-button draft-btn draft-btn-discard"
                     >
                         🗑️ Discard
                     </button>
                 </div>
-                
-                <p style={{ marginTop: '1rem', fontSize: '0.85rem', color: '#6b7280', textAlign: 'center' }}>
+
+                <p className="draft-hint">
                     <em>Tip: If the automatic send fails (daily limit), use the Copy or Open buttons above.</em>
                 </p>
             </div>
@@ -175,8 +150,6 @@ export default function SalesForm({ onResult }) {
     return (
         <div className="form-container">
             <h2 className="form-title">Sales Email Generator</h2>
-            
-
 
             <form onSubmit={handleGenerateDraft}>
                 <div className="form-group">

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import axios from 'axios';
 import ProcessLog from './ProcessLog';
 import { handleApiError } from '../utils/errorHandler';
 import { getApiUrl, getAuthHeaders } from '../utils/api';
@@ -15,23 +16,21 @@ const MeetingPrepForm = ({ onResult }) => {
         onResult({ status: 'running', agent: 'Meeting Prep', message: 'Preparing your briefing...' });
 
         try {
-            const response = await fetch(getApiUrl('api/meeting-prep'), {
-                method: 'POST',
-                headers: getAuthHeaders(),
-                body: JSON.stringify({ topic }),
-            });
+            const response = await axios.post(
+                getApiUrl('api/meeting-prep'),
+                { topic },
+                { headers: getAuthHeaders() }
+            );
 
-
-            const data = await response.json();
-            if (data.status === 'success') {
+            if (response.data.status === 'success') {
                 onResult({
                     status: 'success',
                     type: 'meeting-prep',
-                    result: data.result,
+                    result: response.data.result,
                     message: '✅ Briefing ready! Report saved to Reports folder.'
                 });
             } else {
-                setError(data.detail || 'Failed to prepare briefing');
+                setError(response.data.detail || 'Failed to prepare briefing');
             }
         } catch (err) {
             const errorResult = handleApiError(err);
@@ -51,8 +50,6 @@ const MeetingPrepForm = ({ onResult }) => {
                         <p className="agent-subtitle">Prepare for important meetings in minutes</p>
                     </div>
                 </div>
-
-
 
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">

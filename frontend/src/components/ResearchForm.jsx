@@ -33,8 +33,6 @@ export default function ResearchForm({ onResult }) {
             <div className="form-container">
                 <h2 className="form-title">Deep Research Agent</h2>
 
-
-
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
                         <label className="form-label">Research Topic</label>
