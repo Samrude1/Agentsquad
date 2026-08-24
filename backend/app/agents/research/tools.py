@@ -1,6 +1,6 @@
 import os
 from tavily import TavilyClient
-from agents import function_tool
+from agents import function_tool  # type: ignore[import-untyped]
 
 # Tavily Client
 tavily = TavilyClient(api_key=os.getenv("TAVILY_API_KEY"))

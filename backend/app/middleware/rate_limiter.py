@@ -139,8 +139,12 @@ async def rate_limit_middleware(request: Request, call_next):
     """
     Middleware to apply rate limiting to all requests.
     """
-    # Get client IP
-    client_ip = request.client.host
+    # Get client IP (supports reverse proxy like Hugging Face, Render, Cloudflare)
+    forwarded = request.headers.get("x-forwarded-for")
+    if forwarded:
+        client_ip = forwarded.split(",")[0].strip()
+    else:
+        client_ip = request.client.host if request.client else "127.0.0.1"
     
     # Determine endpoint type
     path = request.url.path

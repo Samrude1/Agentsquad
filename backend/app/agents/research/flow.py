@@ -1,6 +1,6 @@
 import asyncio
 from datetime import date
-from agents import Runner
+from agents import Runner  # type: ignore[import-untyped]
 from backend.app.agents.research.squad import planner_agent, search_agent, writer_agent
 from backend.app.core.utils import save_markdown_report, convert_to_html, agent_run_with_retry
 

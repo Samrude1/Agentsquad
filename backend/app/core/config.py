@@ -2,8 +2,8 @@ import os
 import logging
 from dotenv import load_dotenv
 from openai import AsyncOpenAI
-from agents import OpenAIChatCompletionsModel
-from crewai import LLM
+from agents import OpenAIChatCompletionsModel  # type: ignore[import-untyped]
+from crewai import LLM  # type: ignore[import-untyped]
 
 # 1. Environment & Logging Setup
 def setup_environment():
@@ -52,6 +52,7 @@ crew_llm = LLM(
 )
 
 budget_crew_llm = LLM(
+    model="openai/meta-llama/llama-3.3-70b-instruct",
     base_url=os.getenv("OPENAI_BASE_URL", "https://openrouter.ai/api/v1"),
     api_key=os.getenv("OPENROUTER_API_KEY") or os.getenv("OPENAI_API_KEY")
 )

@@ -10,13 +10,11 @@ export const getApiUrl = (endpoint) => {
 };
 
 /**
- * Gets authentication headers including the platform PIN from localStorage
+ * Gets standard request headers
  */
 export const getAuthHeaders = () => {
-    const pin = localStorage.getItem('agent_platform_pin') || '';
     return {
-        'Content-Type': 'application/json',
-        'X-API-PIN': pin
+        'Content-Type': 'application/json'
     };
 };
 

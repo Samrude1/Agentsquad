@@ -1,8 +1,8 @@
 import os
-import resend
+import resend  # type: ignore[import-untyped]
 # from sendgrid.helpers.mail import Mail, Email, To, Content
 from typing import Dict
-from agents import function_tool
+from agents import function_tool  # type: ignore[import-untyped]
 
 def _send_email_raw(to_email: str, subject: str, html_body: str) -> Dict[str, str]:
     """Raw email sending function (for direct API calls)."""

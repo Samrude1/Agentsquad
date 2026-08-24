@@ -514,11 +514,11 @@ npm run dev
 ### First Use
 
 1. **Open browser**: Navigate to `http://localhost:5173`
-2. **Enter PIN**: Default is `0000` (configured in `.env`)
+2. **Instant Access**: Demonstrations load directly without login/PIN barriers
 3. **Select agent**: Choose from tabs (Sales, Research, Meeting Prep)
 4. **Submit request**: Fill form and click submit
 5. **Watch progress**: Real-time logs appear in console
-6. **View results**: Markdown-rendered output with download option
+6. **View results**: Markdown-rendered output or sanitized HTML preview with download/action options
 
 > **💡 Quick Start Tip**: See [`RUNTHIS.md`](project_docs/RUNTHIS.md) for a condensed startup guide.
 
@@ -721,14 +721,13 @@ FastAPI provides automatic interactive documentation:
 
 ## 🛡️ Security, Rate Limiting & Cost Control
 
-### PIN Authentication (Configurable)
+### Security Architecture & Hardening
 
-- **Status in Live Demo**: **Disabled** for frictionless testing. Budget is managed via OpenRouter's hard spending caps.
-- **Purpose**: When enabled, protects deployments from unauthorized access and API abuse.
-- **Enforcement**: Secures data endpoints via the `X-API-PIN` request header.
-- **Recruiter Mode**: Supports seamless, hidden access via `?access=portfolio_access` URL parameter.
-- **Configuration**: Set `APP_PIN` and `RECRUITER_TOKEN` in `.env`.
-- **Frontend**: Automatically handles PIN entry and URL-based tokens when activated.
+- **XSS Sanitization (`DOMPurify`)**: AI-generated email drafts and HTML previews are sanitized with `DOMPurify` before rendering to eliminate stored/reflected XSS risks.
+- **HTTP Security Headers**: FastAPI backend injects standard defensive headers (`X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `Referrer-Policy: strict-origin-when-cross-origin`, and `X-XSS-Protection`).
+- **Proxy-Aware Rate Limiting**: The rate-limiting middleware extracts client IPs using `X-Forwarded-For` with local fallback to support reverse proxies (Hugging Face Spaces, Render, Cloudflare).
+- **Docker Isolation**: Build contexts use strict `.dockerignore` filters to ensure `.env` keys, cache, and local files are never bundled into images.
+- **Cost Protection**: Budget is safely hard-capped through OpenRouter prepaid balance limits, allowing frictionless public demonstration without security risk or unexpected charges.
 
 ### Rate Limiting
 

@@ -50,6 +50,7 @@ dist-ssr/
 
 # Reports
 Reports/
+test/
 
 # Documentation & Examples
 demo_assets/
@@ -63,6 +64,7 @@ example_deep_research/
 test_rate_limits.py
 debug_model.py
 verify_model.py
+test_openrouter.py
 
 # Local documentation (not for public repo)
 ohje.html

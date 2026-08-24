@@ -1,61 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import SalesForm from './components/SalesForm';
 import ResearchForm from './components/ResearchForm';
 import MeetingPrepForm from './components/MeetingPrepForm';
 import ResultsView from './components/ResultsView';
-import LoginPage from './components/LoginPage';
-import { getApiUrl } from './utils/api';
 import './style.css';
 
 function App() {
   const [activeTab, setActiveTab] = useState('sales');
   const [result, setResult] = useState(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [authChecking, setAuthChecking] = useState(true);
-
-  useEffect(() => {
-    checkAuth();
-  }, []);
-
-  const checkAuth = async () => {
-    try {
-      // 1. Check for automatic access via URL (Recruiter Mode)
-      const urlParams = new URLSearchParams(window.location.search);
-      const urlToken = urlParams.get('token') || urlParams.get('access');
-      
-      if (urlToken) {
-        localStorage.setItem('agent_platform_pin', urlToken);
-        // Clear the URL parameter for a cleaner look
-        window.history.replaceState({}, document.title, window.location.pathname);
-      }
-
-      const res = await fetch(getApiUrl('api/config/auth-enabled'));
-      const data = await res.json();
-
-      if (!data.enabled) {
-        setIsAuthenticated(true);
-      } else {
-        const storedPin = localStorage.getItem('agent_platform_pin');
-        if (storedPin) {
-          // Verify stored pin or token
-          const vRes = await fetch(getApiUrl('api/auth/verify'), {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ pin: storedPin }),
-          });
-          if (vRes.ok) setIsAuthenticated(true);
-        }
-      }
-    } catch (err) {
-      console.error('Auth check failed', err);
-    } finally {
-      setAuthChecking(false);
-    }
-  };
-
-
-  if (authChecking) return <div className="loading-screen">Starting Platform...</div>;
-  if (!isAuthenticated) return <LoginPage onSuccess={() => setIsAuthenticated(true)} />;
 
   return (
     <div className="app-container">

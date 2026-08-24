@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
+import DOMPurify from 'dompurify';
 import ProcessLog from './ProcessLog';
 import { handleApiError } from '../utils/errorHandler';
 import { getApiUrl, getAuthHeaders } from '../utils/api';
@@ -114,7 +115,7 @@ export default function SalesForm({ onResult }) {
                         <p><strong>Subject:</strong> {currentDraft.subject}</p>
                     </div>
                     {/* Render HTML content safely */}
-                    <div dangerouslySetInnerHTML={{ __html: currentDraft.html_body }} />
+                    <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(currentDraft.html_body) }} />
                 </div>
 
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>

@@ -1,5 +1,5 @@
 import asyncio
-from agents import Runner
+from agents import Runner  # type: ignore[import-untyped]
 from backend.app.agents.sales.personas import (
     persona_agents, sales_manager, subject_writer, html_formatter, EmailDraft
 )

@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from agents import Agent
+from agents import Agent  # type: ignore[import-untyped]
 from backend.app.core.config import default_model
 
 # --- MODELS ---
