@@ -15,6 +15,7 @@ professional_agent = Agent(
 STRICT RULES:
 - NO LABELS like 'Problem:', 'Agitation:', or 'Solution:' in the output.
 - NO PLACEHOLDERS like [Brand Name], [Link], or [Insert info]. 
+- NEVER ask for a PIN, password, verification code, or sensitive credentials. We do not use PINs.
 - Use ONLY the info provided. If details are missing, write around them naturally.
 GREETING: Use greeting hint provided.
 SIGNATURE: Use 'Best regards, {sender_name}'.""",
@@ -27,6 +28,7 @@ engaging_agent = Agent(
 STRICT RULES:
 - NO LABELS like 'Attention:', 'Interest:', etc. in the output.
 - NO PLACEHOLDERS like [Brand Name], [Link], or [Insert info]. 
+- NEVER ask for a PIN, password, verification code, or sensitive credentials. We do not use PINs.
 - Use ONLY the info provided.
 GREETING: Use greeting hint provided.
 SIGNATURE: Use 'Best regards, {sender_name}'.""",
@@ -40,6 +42,7 @@ STRICT RULES:
 - Under 75 words. No fluff. Go straight to value.
 - NO labels like 'BLUF:' or 'Note:'.
 - NO PLACEHOLDERS.
+- NEVER ask for a PIN, password, verification code, or sensitive credentials. We do not use PINs.
 - Use ONLY the info provided.
 GREETING: Use greeting hint provided.
 SIGNATURE: Use 'Best regards, {sender_name}'.""",
@@ -52,6 +55,8 @@ sales_manager = Agent(
     instructions="""You are given 3 email drafts from different writers.
 
 TASK: Evaluate all 3 and pick the SINGLE BEST one for the prospect.
+RULES:
+- Disqualify/reject any draft that asks for a PIN, password, or sensitive credentials.
 OUTPUT: Return ONLY the winning email text. nothing else. No explanation, no reasoning, no "Reason:" section.""",
     model=default_model
 )
@@ -64,6 +69,7 @@ RULES:
 - Under 50 characters
 - Create curiosity or urgency
 - No clickbait
+- NEVER mention PINs or credentials
 OUTPUT: Return ONLY the subject line, nothing else.""",
     model=default_model
 )
@@ -81,7 +87,7 @@ RULES:
 - Ensure the layout feels spacious and easy to read.
 - DO NOT use amateurish colors or fonts. 
 - DO NOT include markdown code fences (no ```html or ```).
-- Preserve the original message exactly.
+- Preserve the original message exactly. Never add PIN prompts or verification requests.
 OUTPUT: Return ONLY the raw HTML body content.""",
     model=default_model
 )

@@ -33,7 +33,8 @@ TODAY'S DATE: {current_date}. Always search for CURRENT information.
 
 Break down the topic into 3 surgical search queries.
 Target technical terms, benchmarks, and recent developments from {current_year-1}-{current_year}.
-IMPORTANT: Add "{current_year-1}" or "{current_year}" to queries when searching for current data.""",
+IMPORTANT: Add "{current_year-1}" or "{current_year}" to queries when searching for current data.
+Do NOT ask for or query about PINs, passwords, or user credentials.""",
         model=default_model,
         output_type=WebSearchPlan,
     )
@@ -48,7 +49,7 @@ search_agent = Agent(
 1. Execute the search using web_search tool
 2. Analyze the results
 3. Extract key facts, statistics, and source URLs
-4. Return a structured summary of findings""",
+4. Return a structured summary of findings. Never ask for a PIN, password, or security credentials.""",
     tools=[web_search],
     model=default_model,
 )
@@ -79,6 +80,7 @@ RULES:
 - Match citation numbers to source numbers
 - Use the article TITLE as source name, not raw URL
 - Keep URLs short if possible (main domain + path)
-- Only state facts found in the provided data""",
+- Only state facts found in the provided data
+- Never ask for a PIN, password, or sensitive credentials""",
     model=default_model,
 )

@@ -38,8 +38,9 @@ briefing_task:
     - questions_to_consider: 3-5 smart questions to ask
     
     Be concise and factual. Focus on actionable intelligence.
+    Do NOT include or ask for any PIN codes, passwords, or security credentials.
   expected_output: >
-    Structured meeting briefing data.
+    Structured meeting briefing data without any PIN or credential requests.
   agent: briefing_coordinator
   context:
     - analysis_task

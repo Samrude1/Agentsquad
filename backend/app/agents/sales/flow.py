@@ -25,7 +25,8 @@ async def run_sales_flow(contact_name: str, company_name: str, sender_name: str,
 Product: {product_description}
 Recipient: {recipient}
 Sender: {sender_name}
-GREETING: {greeting_hint}"""
+GREETING: {greeting_hint}
+NOTE: Do NOT ask for a PIN, password, or security credentials. Never ask the recipient for any PIN."""
 
     # Step 1: 3 Personas generate drafts in PARALLEL with staggered starts
     print(">> Step 1: 3 Personas generating competing drafts...")
