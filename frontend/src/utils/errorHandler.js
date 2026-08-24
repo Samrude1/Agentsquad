@@ -24,7 +24,7 @@ export function handleApiError(error) {
     if (error.response?.status === 401) {
         return {
             status: 'error',
-            result: '🔒 Authentication failed. Please check your PIN and try again.'
+            result: '🔒 Access unauthorized. Please try again.'
         };
     }
 
