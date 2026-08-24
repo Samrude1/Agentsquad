@@ -25,18 +25,18 @@ class RateLimiter:
         # Store: {ip_address: [(timestamp, endpoint), ...]}
         self.requests: Dict[str, list] = defaultdict(list)
         
-        # Rate limits optimized for thorough testing
+        # Rate limits optimized for seamless testing and demonstration
         self.limits = {
-            # Agent endpoints - allow thorough testing but prevent abuse
+            # Agent endpoints - generous limits for interactive testing
             "agent": {
-                "per_15min": 5,   # 5 agent runs per 15 minutes (test all 3 agents + retries)
-                "per_hour": 10,   # 10 agent runs per hour
-                "per_day": 25,    # 25 agent runs per day (generous for demo)
+                "per_15min": 30,  # 30 agent runs per 15 minutes
+                "per_hour": 60,   # 60 agent runs per hour
+                "per_day": 200,   # 200 agent runs per day
             },
-            # Auth and general endpoints - more permissive
+            # General endpoints
             "general": {
-                "per_minute": 30,  # 30 requests per minute
-                "per_hour": 500,   # 500 requests per hour
+                "per_minute": 60,  # 60 requests per minute
+                "per_hour": 1000,  # 1000 requests per hour
             }
         }
     
