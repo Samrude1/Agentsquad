@@ -1,86 +1,103 @@
-"""Flow adapter for Meeting Prep CrewAI agent."""
+"""Flow for Meeting Prep agent squad using OpenAI Agents SDK."""
 
-import sys
 import asyncio
-from pathlib import Path
 from datetime import date
-from dotenv import load_dotenv, find_dotenv
-
-# Load environment variables
-load_dotenv(find_dotenv())
-
-# Add the meeting_prep src to path
-current_dir = Path(__file__).parent
-src_dir = current_dir / "src"
-if str(src_dir) not in sys.path:
-    sys.path.append(str(src_dir))
-
-from meeting_prep.crew import MeetingPrepCrew
-from meeting_prep.schemas import MeetingBriefing
+from agents import Runner  # type: ignore[import-untyped]
+from backend.app.agents.meeting_prep.squad import (
+    planner_agent,
+    search_agent,
+    analyst_agent,
+    briefing_agent,
+)
+from backend.app.agents.meeting_prep.schemas import MeetingBriefing
+from backend.app.core.utils import agent_run_with_retry, save_markdown_report, convert_to_html
 
 
 async def run_meeting_prep(topic: str) -> str:
     """
-    Run the Meeting Prep CrewAI workflow.
+    Run the Meeting Prep multi-agent workflow with real-time web search.
     
     Args:
-        topic: Company name to prepare for
+        topic: Target company or organization name
         
     Returns:
-        Markdown-formatted meeting briefing
+        Markdown-formatted verified meeting briefing
     """
     print(f"\n=== MEETING PREP: {topic} ===\n")
     
-    # Dynamic date injection
-    current_year = date.today().year
-    inputs = {
-        'topic': topic,
-        'current_date': date.today().strftime("%B %Y"),  # e.g., "February 2026"
-        'current_year': str(current_year),
-        'last_year': str(current_year - 1),
-    }
-
-    from backend.app.core.config import crew_llm, budget_crew_llm
+    # Step 1: PLANNER creates 3 targeted search queries
+    print(">> Agent 1: Meeting Intelligence Planner generating search strategy...")
+    plan_result = await agent_run_with_retry(
+        Runner, 
+        planner_agent, 
+        f"Target Company / Organization: {topic}"
+    )
+    plan = plan_result.final_output
     
-    current_llm = crew_llm
+    # Step 2: SEARCH ANALYSTS execute real-time searches in parallel
+    print(f">> Agent 2: Search Analysts executing {len(plan.searches)} real-time searches...")
     
+    async def staggered_search(query: str, index: int):
+        if index > 0:
+            await asyncio.sleep(index * 2)
+        return await agent_run_with_retry(
+            Runner, 
+            search_agent, 
+            f"Search and extract verified company intelligence for: {query}"
+        )
+    
+    search_results = await asyncio.gather(*[
+        staggered_search(item.query, i)
+        for i, item in enumerate(plan.searches)
+    ])
+    
+    combined_research = "\n\n---\n\n".join([
+        f"SEARCH {i+1} ({item.reason}): {item.query}\nFINDINGS:\n{result.final_output}"
+        for i, (item, result) in enumerate(zip(plan.searches, search_results))
+    ])
+    
+    # Step 3: STRATEGY ANALYST formulates talking points & high-impact questions
+    print(">> Agent 3: Meeting Strategy Analyst formulating talking points & questions...")
+    strategy_result = await agent_run_with_retry(
+        Runner,
+        analyst_agent,
+        f"Company: {topic}\n\nVerified Research Data:\n{combined_research}"
+    )
+    strategy_output = strategy_result.final_output
+    
+    # Step 4: BRIEFING SPECIALIST produces structured, 100% grounded briefing
+    print(">> Agent 4: Executive Briefing Specialist compiling final dossier...")
+    briefing_input = (
+        f"Target Company: {topic}\n\n"
+        f"Verified Research Findings:\n{combined_research}\n\n"
+        f"Strategy & Questions:\n{strategy_output}"
+    )
+    
+    briefing_result = await agent_run_with_retry(
+        Runner,
+        briefing_agent,
+        briefing_input
+    )
+    
+    final_data = briefing_result.final_output
+    if isinstance(final_data, MeetingBriefing):
+        clean_markdown = final_data.to_markdown(company_name=topic)
+    else:
+        # Fallback if raw text
+        clean_markdown = str(final_data)
+    
+    # Step 5: Save report to Reports directory
     try:
-        retries = 3
-        delay = 5
-        for i in range(retries):
-            try:
-                crew_instance = MeetingPrepCrew(llm=current_llm).crew()
-                result = await crew_instance.kickoff_async(inputs=inputs)
-                break
-            except Exception as e:
-                error_msg = str(e)
-                # Check for rate limit or resource exhaustion
-                if ("429" in error_msg or "RESOURCE_EXHAUSTED" in error_msg) and i < retries - 1:
-                    wait_time = delay * (i + 1)
-                    print(f"--- CrewAI Rate Limit hit (429). Switching to budget model and retrying in {wait_time}s... ---")
-                    current_llm = budget_crew_llm  # Switch to budget model for retry
-                    await asyncio.sleep(wait_time)
-                    continue
-                raise e
+        md_file = save_markdown_report(clean_markdown, f"Meeting_Prep_{topic}")
+        convert_to_html(clean_markdown, f"Meeting Prep: {topic}", md_file)
+    except Exception as save_err:
+        print(f"[Meeting Prep] Note: Could not save report file locally: {save_err}")
         
-        # With output_pydantic, result.pydantic gives us the structured data
-        if hasattr(result, 'pydantic') and result.pydantic:
-            briefing: MeetingBriefing = result.pydantic
-            clean_output = briefing.to_markdown(company_name=topic)
-        else:
-            # Fallback: use raw output if pydantic parsing failed
-            clean_output = str(result)
-        
-        print("\n=== MEETING PREP COMPLETE ===\n")
-        return clean_output
-
-        
-    except Exception as e:
-        print(f"Error in Meeting Prep Flow: {e}")
-        raise
+    print("\n=== MEETING PREP COMPLETE ===\n")
+    return clean_markdown
 
 
 if __name__ == "__main__":
-    import dotenv
-    dotenv.load_dotenv()
-    asyncio.run(run_meeting_prep("Nokia"))
+    from backend.app.core.config import setup_environment
+    setup_environment()
+    asyncio.run(run_meeting_prep("DNV cyber finland"))

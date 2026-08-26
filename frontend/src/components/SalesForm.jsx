@@ -5,6 +5,33 @@ import ProcessLog from './ProcessLog';
 import { handleApiError } from '../utils/errorHandler';
 import { getApiUrl, getAuthHeaders } from '../utils/api';
 
+const PRESETS = [
+    {
+        label: '🚀 B2B AI Agent Pitch',
+        contact: 'Mikko Virtanen',
+        company: 'Nokia',
+        email: 'mikko.virtanen@example.com',
+        sender: 'Sami Rautanen',
+        desc: 'Agent Squad AI: Multi-agent platform that cuts B2B market research and executive briefing prep time by 80% with automated web intel and structured Pydantic reports.'
+    },
+    {
+        label: '💳 FinTech Solution',
+        contact: 'Sarah Jenkins',
+        company: 'Stripe',
+        email: 'sarah.j@example.com',
+        sender: 'Sami Rautanen',
+        desc: 'Enterprise workflow automation for developer-first fintech platforms, streamlining regulatory compliance briefings.'
+    },
+    {
+        label: '⚡ Cloud Ops Advisory',
+        contact: 'Alex Rivera',
+        company: 'Wolt',
+        email: 'alex.r@example.com',
+        sender: 'Sami Rautanen',
+        desc: 'Autonomous microservice monitoring and incident report summarization tailored for fast-growing scale-ups.'
+    }
+];
+
 export default function SalesForm({ onResult }) {
     const [contactName, setContactName] = useState('');
     const [companyName, setCompanyName] = useState('');
@@ -16,6 +43,14 @@ export default function SalesForm({ onResult }) {
     // Draft State
     const [draftMode, setDraftMode] = useState(false);
     const [currentDraft, setCurrentDraft] = useState(null);
+
+    const applyPreset = (preset) => {
+        setContactName(preset.contact);
+        setCompanyName(preset.company);
+        setProspectEmail(preset.email);
+        setSenderName(preset.sender);
+        setProductDescription(preset.desc);
+    };
 
     const handleGenerateDraft = async (e) => {
         e.preventDefault();
@@ -67,7 +102,7 @@ export default function SalesForm({ onResult }) {
             // Success! Reset UI
             setDraftMode(false);
             setCurrentDraft(null);
-            onResult({ status: 'success', result: "Email sent successfully!" });
+            onResult({ status: 'success', result: "Email sent successfully via Resend API!" });
         } catch (error) {
             onResult(handleApiError(error));
         } finally {
@@ -80,20 +115,16 @@ export default function SalesForm({ onResult }) {
         setCurrentDraft(null);
     };
 
-    // --- RENDER ---
-    if (loading) {
-        return (
-            <div className="form-container">
-                <h2 className="form-title">Processing...</h2>
-                <ProcessLog agentType="sales" />
-            </div>
-        );
-    }
-
     if (draftMode && currentDraft) {
         return (
             <div className="form-container form-container-wide">
-                <h2 className="form-title">Review Email Draft</h2>
+                <div className="agent-header">
+                    <div className="agent-icon">✉️</div>
+                    <div className="agent-header-text">
+                        <h2>Review Generated Email Draft</h2>
+                        <p className="agent-subtitle">Human-in-the-loop review before dispatch</p>
+                    </div>
+                </div>
 
                 <div className="draft-preview">
                     <div className="draft-meta">
@@ -108,9 +139,10 @@ export default function SalesForm({ onResult }) {
                 <div className="draft-actions">
                     <button
                         onClick={handleSendEmail}
-                        className="submit-button sales draft-btn draft-btn-send"
+                        className="submit-button draft-btn draft-btn-send"
+                        disabled={loading}
                     >
-                        🚀 Approve & Send
+                        🚀 {loading ? 'Sending...' : 'Approve & Send (Resend)'}
                     </button>
 
                     <button
@@ -121,7 +153,7 @@ export default function SalesForm({ onResult }) {
                         }}
                         className="submit-button draft-btn draft-btn-copy"
                     >
-                        📋 Copy Text
+                        📋 Copy Plaintext
                     </button>
 
                     <a
@@ -140,7 +172,7 @@ export default function SalesForm({ onResult }) {
                 </div>
 
                 <p className="draft-hint">
-                    <em>Tip: If the automatic send fails (daily limit), use the Copy or Open buttons above.</em>
+                    <em>Tip: In production environments, emails are dispatched through authenticated SMTP/Resend with DKIM & SPF validation.</em>
                 </p>
             </div>
         );
@@ -148,75 +180,109 @@ export default function SalesForm({ onResult }) {
 
     // Default Form View
     return (
-        <div className="form-container">
-            <h2 className="form-title">Sales Email Generator</h2>
-
-            <form onSubmit={handleGenerateDraft}>
-                <div className="form-group">
-                    <label className="form-label">Contact Name (optional if company)</label>
-                    <input
-                        type="text"
-                        value={contactName}
-                        onChange={(e) => setContactName(e.target.value)}
-                        className="form-input"
-                        placeholder="e.g., John Smith"
-                    />
+        <>
+            <div className="form-container">
+                <div className="agent-header">
+                    <div className="agent-icon">💼</div>
+                    <div className="agent-header-text">
+                        <h2>Sales Outreach Agent</h2>
+                        <p className="agent-subtitle">Autonomous B2B personalized email generation & strategic drafting</p>
+                    </div>
                 </div>
 
-                <div className="form-group">
-                    <label className="form-label">Company Name (optional if contact)</label>
-                    <input
-                        type="text"
-                        value={companyName}
-                        onChange={(e) => setCompanyName(e.target.value)}
-                        className="form-input"
-                        placeholder="e.g., Sony, Microsoft"
-                    />
+                {/* 1-Click Demo Presets */}
+                <div className="presets-section">
+                    <div className="presets-label">⚡ 1-Click Quick Demos (Try instantly):</div>
+                    <div className="presets-grid">
+                        {PRESETS.map((preset, idx) => (
+                            <button
+                                key={idx}
+                                type="button"
+                                className="preset-chip"
+                                onClick={() => applyPreset(preset)}
+                                disabled={loading}
+                            >
+                                {preset.label}
+                            </button>
+                        ))}
+                    </div>
                 </div>
 
-                <div className="form-group">
-                    <label className="form-label">Prospect Email</label>
-                    <input
-                        type="email"
-                        value={prospectEmail}
-                        onChange={(e) => setProspectEmail(e.target.value)}
-                        className="form-input"
-                        placeholder="Enter prospect email"
-                        required
-                    />
-                </div>
+                <form onSubmit={handleGenerateDraft}>
+                    <div className="form-group">
+                        <label className="form-label">Contact Name</label>
+                        <input
+                            type="text"
+                            value={contactName}
+                            onChange={(e) => setContactName(e.target.value)}
+                            className="form-input"
+                            placeholder="e.g., John Smith"
+                            disabled={loading}
+                        />
+                    </div>
 
-                <div className="form-group">
-                    <label className="form-label">Sender Name</label>
-                    <input
-                        type="text"
-                        value={senderName}
-                        onChange={(e) => setSenderName(e.target.value)}
-                        className="form-input"
-                        placeholder="Enter your name"
-                        required
-                    />
-                </div>
+                    <div className="form-group">
+                        <label className="form-label">Company Name</label>
+                        <input
+                            type="text"
+                            value={companyName}
+                            onChange={(e) => setCompanyName(e.target.value)}
+                            className="form-input"
+                            placeholder="e.g., Nokia, Microsoft, Stripe"
+                            disabled={loading}
+                        />
+                    </div>
 
-                <div className="form-group">
-                    <label className="form-label">Product/Service Description</label>
-                    <textarea
-                        value={productDescription}
-                        onChange={(e) => setProductDescription(e.target.value)}
-                        className="form-input"
-                        placeholder="What are you offering? (e.g. Premium Coffee Beans, Web Design services...)"
-                        rows="4"
-                        required
-                    ></textarea>
-                </div>
+                    <div className="form-group">
+                        <label className="form-label">Prospect Email</label>
+                        <input
+                            type="email"
+                            value={prospectEmail}
+                            onChange={(e) => setProspectEmail(e.target.value)}
+                            className="form-input"
+                            placeholder="Enter prospect email"
+                            required
+                            disabled={loading}
+                        />
+                    </div>
 
-                <button
-                    type="submit"
-                    className="submit-button sales"
-                >
-                    Generate Draft
-                </button>
-            </form>
-        </div>
+                    <div className="form-group">
+                        <label className="form-label">Sender Name</label>
+                        <input
+                            type="text"
+                            value={senderName}
+                            onChange={(e) => setSenderName(e.target.value)}
+                            className="form-input"
+                            placeholder="Enter your name"
+                            required
+                            disabled={loading}
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <label className="form-label">Product / Value Proposition</label>
+                        <textarea
+                            value={productDescription}
+                            onChange={(e) => setProductDescription(e.target.value)}
+                            className="form-input"
+                            placeholder="What are you offering? (e.g. Multi-agent workflow platform, Enterprise cloud consulting...)"
+                            rows="3"
+                            required
+                            disabled={loading}
+                        ></textarea>
+                    </div>
+
+                    <button
+                        type="submit"
+                        className="submit-button"
+                        disabled={loading}
+                    >
+                        {loading ? '⚡ Synthesizing Optimal Pitch...' : '🚀 Generate Draft'}
+                    </button>
+                </form>
+            </div>
+
+            {loading && <ProcessLog agentType="sales" />}
+        </>
     );
 }

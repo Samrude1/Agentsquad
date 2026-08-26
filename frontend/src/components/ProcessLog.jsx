@@ -38,8 +38,8 @@ const RESEARCH_LOGS = [
 ];
 
 const MEETING_PREP_LOGS = [
-    "Initializing Meeting Prep AI [CrewAI]...",
-    "> Deploying 3-agent crew",
+    "Initializing Meeting Prep AI Squad...",
+    "> Deploying specialized multi-agent squad",
     "Agent 1: Company Intel Researcher online",
     "> Searching: Company overview",
     "> Searching: Key executives",

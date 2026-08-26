@@ -4,6 +4,14 @@ import ProcessLog from './ProcessLog';
 import { handleApiError } from '../utils/errorHandler';
 import { getApiUrl, getAuthHeaders } from '../utils/api';
 
+const MEETING_PRESETS = [
+    { label: '🏢 Nokia', topic: 'Nokia' },
+    { label: '💳 Stripe', topic: 'Stripe' },
+    { label: '🏗️ Kone', topic: 'Kone' },
+    { label: '🍔 Wolt', topic: 'Wolt' },
+    { label: '🚗 Tesla', topic: 'Tesla' }
+];
+
 const MeetingPrepForm = ({ onResult }) => {
     const [topic, setTopic] = useState('');
     const [loading, setLoading] = useState(false);
@@ -45,36 +53,47 @@ const MeetingPrepForm = ({ onResult }) => {
             <div className="form-container">
                 <div className="agent-header">
                     <div className="agent-icon">📋</div>
-                    <div>
-                        <h3>Meeting Prep AI</h3>
-                        <p className="agent-subtitle">Prepare for important meetings in minutes</p>
+                    <div className="agent-header-text">
+                        <h2>Meeting Prep AI (Multi-Agent Squad)</h2>
+                        <p className="agent-subtitle">Company intelligence, key executive bios, talking points & high-impact questions</p>
+                    </div>
+                </div>
+
+                {/* 1-Click Demo Presets */}
+                <div className="presets-section">
+                    <div className="presets-label">⚡ 1-Click Company Demos (Try instantly):</div>
+                    <div className="presets-grid">
+                        {MEETING_PRESETS.map((preset, idx) => (
+                            <button
+                                key={idx}
+                                type="button"
+                                className="preset-chip"
+                                onClick={() => setTopic(preset.topic)}
+                                disabled={loading}
+                            >
+                                {preset.label}
+                            </button>
+                        ))}
                     </div>
                 </div>
 
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
-                        <label htmlFor="topic" className="form-label">Company Name</label>
+                        <label htmlFor="topic" className="form-label">Target Company or Organization</label>
                         <input
                             id="topic"
                             type="text"
                             className="form-input"
                             value={topic}
                             onChange={(e) => setTopic(e.target.value)}
-                            placeholder="e.g. Nokia, Microsoft, Tesla..."
+                            placeholder="e.g. Nokia, Stripe, Supercell, Microsoft..."
                             required
                             disabled={loading}
                         />
                     </div>
 
                     <button type="submit" className="submit-button" disabled={loading}>
-                        {loading ? (
-                            <span className="loading-content">
-                                <span className="pulse-dot"></span>
-                                Deploying Crew...
-                            </span>
-                        ) : (
-                            'Prepare Briefing'
-                        )}
+                        {loading ? '⚡ Deploying 3-Agent Crew...' : '🚀 Prepare Executive Briefing'}
                     </button>
                 </form>
 
