@@ -55,7 +55,6 @@ class MeetingPrepCrew():
     def briefing_task(self) -> Task:
         return Task(
             config=self.tasks_config['briefing_task'],
-            output_pydantic=MeetingBriefing,  # Forces structured output
         )
 
     @crew

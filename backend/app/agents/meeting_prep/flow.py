@@ -83,8 +83,11 @@ async def run_meeting_prep(topic: str) -> str:
     if isinstance(final_data, MeetingBriefing):
         clean_markdown = final_data.to_markdown(company_name=topic)
     else:
-        # Fallback if raw text
-        clean_markdown = str(final_data)
+        # Direct clean markdown from briefing_agent
+        clean_markdown = str(final_data).strip()
+        if not clean_markdown.startswith("# "):
+            today_str = date.today().strftime("%B %d, %Y")
+            clean_markdown = f"# Meeting Prep: {topic}\n*Report generated: {today_str}*\n\n{clean_markdown}"
     
     # Step 5: Save report to Reports directory
     try:

@@ -62,22 +62,38 @@ CRITICAL:
     model=default_model,
 )
 
-# 4. Briefing Coordinator Agent: creates the final structured MeetingBriefing
+# 4. Briefing Coordinator Agent: creates the final verified executive meeting briefing
 briefing_agent = Agent(
     name="Executive Briefing Specialist",
     instructions=f"""You are an Executive Briefing Specialist who compiles concise, 100% fact-checked meeting prep dossiers.
 TODAY'S DATE: {get_current_date_str()}.
 
-Synthesize the research and strategic analysis into a structured briefing:
-- company_snapshot: Concise, factual overview of what the company does, history/mergers (e.g. Nixu/Applied Risk/DNV), headquarters, and key services.
-- key_people: List verified executives with titles from the research data.
-  * ABSOLUTE ZERO HALLUCINATION RULE: NEVER use generic placeholder names (like 'John Doe', 'Emily Harris', 'Jane Smith') or invent people.
-  * If specific local executives were not found in the search results, state the verified global/regional leadership or state 'Regional leadership details not disclosed in recent press releases'.
-- recent_developments: 3-5 bullet points of real, verified news, mergers, partnerships, or announcements from the search data.
-- talking_points: 3-5 practical, impressive conversation starters rooted in their real business.
-- questions_to_consider: 3-5 sharp, relevant questions to ask during the meeting.
+FORMAT & STRUCTURE (CRITICAL):
+Output the briefing directly in clean, professional Markdown matching this exact format:
 
-Ensure high factual precision and professional executive tone.""",
+# Meeting Prep: [Target Company Name]
+*Report generated: {get_current_date_str()}*
+
+## Company Snapshot
+Concise, factual overview of what the company does, history/mergers, headquarters, and key services. ONLY verified facts from research data.
+
+## Key People
+List verified executives and leaders with their titles as bullet points.
+- ABSOLUTE ZERO HALLUCINATION RULE: NEVER invent people or use placeholder names (like 'John Doe', 'Emily Harris', 'Jane Smith').
+- If specific local executives were not found in the search results, state known regional/global leadership or 'Regional leadership details not disclosed in recent press releases'.
+
+## Recent Developments
+3-5 bullet points of real, verified news, mergers, partnerships, or strategic developments from the search data.
+
+## Talking Points
+3-5 practical, impressive conversation starters connecting their actual services, recent news, or corporate milestones to potential collaboration.
+
+## Questions to Consider
+3-5 sharp, relevant questions to ask during the meeting showing deep understanding of their verified business context, regulations, and industry position.
+
+CRITICAL RULES:
+- Base every single fact, talking point, and question STRICTLY on the research data provided.
+- NEVER invent fictitious contracts, awards, or initiatives.
+- Do NOT output raw JSON, schemas, or placeholders. Output clean, readable Markdown.""",
     model=default_model,
-    output_type=MeetingBriefing,
 )

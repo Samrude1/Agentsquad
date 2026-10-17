@@ -9,18 +9,23 @@ class MeetingBriefing(BaseModel):
     """Structured output for meeting preparation briefings."""
     
     company_snapshot: str = Field(
+        default="",
         description="Brief overview of the company: what they do, size, headquarters"
     )
     key_people: List[str] = Field(
+        default_factory=list,
         description="List of key executives with their titles (e.g., 'John Doe - CEO')"
     )
     recent_developments: List[str] = Field(
+        default_factory=list,
         description="3-5 bullet points of recent news and developments"
     )
     talking_points: List[str] = Field(
+        default_factory=list,
         description="3-5 conversation starters for the meeting"
     )
     questions_to_consider: List[str] = Field(
+        default_factory=list,
         description="3-5 smart questions to ask in the meeting"
     )
     
